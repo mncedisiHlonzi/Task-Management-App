@@ -1,0 +1,77 @@
+ion-header {
+    ion-toolbar {
+      font-weight: bold;
+      box-shadow: none;
+      --background: var(--ion-bg-color);
+      --color: var(--ion-tx-color);
+    }
+  }
+  ion-content {
+    --background: var(--ion-bg-color);
+    --color: var(--ion-tx-color);
+  }
+  
+  .custom-back-button {
+    --border-radius: 10px !important;
+    --background: var(--plug-cards-bg);
+    --color: var(--ion-top-icons-color);
+    margin-left: 5px;
+  
+    .button-native {
+      border-radius: 10px !important;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+}
+
+
+
+.form-card {
+    --background: var(--ion-bg-color);
+    padding-top: 45px;
+    border-radius: 12px;
+    box-shadow: none !important;
+  }
+
+  /* Tagline Row */
+ion-row.tagline {
+    padding-left: 1.5vh;
+    background: var(--ion-bg-color);
+    color: var(--ion-tx-color);
+    ion-text {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--ion-tx-color);
+    }
+  }
+
+  ion-item{
+    --background: var(--plug-cards-bg);
+    --color: var(--ion-tx-color);
+    margin-bottom: 7px;
+    border-radius: 7px;
+    //border: 2px solid var(--plug-card-bg);
+  }
+
+  .buttons{
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .buttons h4{
+    font-weight: 700;
+  }
+
+  .router {
+    text-transform: none;
+    font-weight: 700;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    border: 2px solid;
+    border-radius: 10px;
+}

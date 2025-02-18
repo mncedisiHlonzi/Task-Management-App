@@ -1,0 +1,165 @@
+/* Header Toolbar */
+ion-header {
+  ion-toolbar {
+    font-weight: bold;
+    box-shadow: none;
+    --background: var(--ion-bg-color);
+    --color: var(--ion-tx-color);
+  }
+}
+
+ion-content {
+  --background: var(--ion-bg-color);
+  --color: var(--ion-tx-color);
+}
+
+/************************* Top-bar CSS ************************/
+.header-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+  padding: 17px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+  border: 2px solid var(--plug-card-bg);
+}
+
+.icon-section {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.notification-icon {
+  font-size: 24px;
+  background-color: var(--plug-cards-bg);
+  border-radius: 50%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), /* Soft shadow below */
+              0 1px 3px rgba(0, 0, 0, 0.06); /* Light shadow for detail */
+}
+
+.notification-badge {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  background-color: var(--ion-color-danger);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/************************* Top-bar CSS End ************************/
+
+/* Tagline Row */
+ion-row.tagline {
+  padding-left: 1.5vh;
+  background: var(--plug-card-bg);
+  color: #fff;
+  ion-text {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #fff;
+  }
+}
+
+.welcome-card{
+  --background: var(--ion-bg-color);
+  --color: var(--ion-tx-color);
+  box-shadow: none !important;
+  margin-top: -5px;
+}
+
+.welcome-card ion-card-title{
+  font-size: 1.5rem;
+  font-weight: 900;
+  --color: var(--ion-tx-color);
+}
+.welcome-card ion-card-subtitle{
+  font-weight: 900;
+  --color: grey;
+}
+
+/* Task Options Card */
+.task-options-card {
+  --background: var(--plug-card-bg);
+  --color: var(--ion-tx-color);
+  border-radius: 12px;
+  box-shadow: none !important;
+  padding: 16px;
+  margin: 16px;
+  position: relative; /* Ensure the pseudo-element is positioned relative to this card */
+  overflow: hidden; /* Prevent the background from spilling outside */
+}
+
+.task-options-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../../assets/images/card.png') no-repeat center center;
+  background-size: cover; /* Makes the image cover the whole card */
+  opacity: 0.3; /* Subtle effect */
+  z-index: 0; /* Ensure it stays below the content */
+}
+
+.task-options-card ion-card-title {
+  color: var(--ion-tx-color);
+  font-weight: 700;
+}
+
+.option-square {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90px;
+  background-color: var(--plug-cards-bg); //--ion-bg-color
+  border-radius: 12px;
+  border: 1px solid #ececec; //border
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.option-square:hover {
+  transform: translateY(-4px);
+}
+
+.option-icon {
+  font-size: 30px;
+  margin-top: 15px;
+  color: var(--ion-top-icons-color);
+}
+
+.option-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--ion-tx-color);
+  text-align: center;
+}

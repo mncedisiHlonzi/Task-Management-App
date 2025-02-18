@@ -1,0 +1,209 @@
+ion-header {
+    ion-toolbar {
+      font-weight: bold;
+      box-shadow: none;
+      --background: var(--ion-bg-color);
+      --color: var(--ion-tx-color);
+    }
+  }
+  ion-content {
+    --background: var(--ion-bg-color);
+    --color: var(--ion-tx-color);
+  }
+  
+  .custom-back-button {
+    --border-radius: 10px !important;
+    --background: var(--plug-cards-bg);
+    --color: var(--ion-top-icons-color);
+    margin-left: 5px;
+  
+    .button-native {
+      border-radius: 10px !important;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .button-inner {
+      border-radius: 0 !important;
+    }
+  
+    .button-effect {
+      border-radius: 0 !important;
+    }
+  }
+
+
+  //New Modern Task Card
+  .modern-task {
+    --background: var(--plug-cards-bg);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1), 
+                0px 2px 4px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Add a hover effect for interactivity */
+  .modern-task:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15), 
+                0px 3px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modern-task::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../../assets/images/task.png') no-repeat center center;
+    background-size: cover;
+    opacity: 0.3;
+    z-index: 0;
+  }
+
+  .modern-task .title-priority{
+    display: flex;
+    justify-content: space-between;
+  }
+  .modern-task .title-priority h4{
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--ion-tx-color);
+  }
+  .modern-task .title-priority .priority-chip{
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 16px;
+    text-align: center;
+    margin-right: 5px;
+  }
+  /* /////////// Priority Colors //////////// */
+  .priority-low {
+    background-color: #4caf50; /* Green for low priority */
+  }
+  
+  .priority-medium {
+    background-color: #ff9800; /* Orange for medium priority */
+  }
+  
+  .priority-high {
+    background-color: #f44336; /* Red for high priority */
+  }
+  /* /////////// Priority Colors //////////// */
+  .modern-task .date-status{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    align-items: center;
+    border-left: 2px dashed gray;
+    color: gray;
+  }
+  .modern-task .date-status .line{
+    height: 20px;
+  }
+  .modern-task .date-status .due-time{
+    color: gray;
+    margin-left: 5px;
+    font-weight: 700;
+    font-size: 0.7rem;
+  }
+  .modern-task .date-status .reminder-time{
+    color: gray;
+    margin-left: 5px;
+    font-weight: 700;
+    font-size: 0.7rem;
+  }
+  .date-icon{
+    width: 20px;
+    height: 20px;
+    display: flex;
+    margin-right: 3px;
+  }
+  .time-txt{
+    display: flex;
+    font-weight: 700;
+  }
+  .description{
+    margin-top: 10px;
+  }
+  .description p{
+    font-weight: 500;
+  }
+  /* Status Dropdown */
+
+  .status-dropdown {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    --border-radius: 25px;
+    --background: transparent;
+    width: 120px;
+    text-align: center;
+    font-weight: 500;
+  
+    &.no-indicator::part(placeholder),
+    &.no-indicator::part(text) {
+      background: transparent;
+    }
+    
+  }
+  ion-select::part(icon) {
+    color: var(--ion-color-primary);
+    opacity: 1;
+  }
+
+  .toggle-description {
+    color: var(--ion-color-primary);
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 4px;
+  }
+
+  .task-action{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 3px solid #ccc;
+  }
+  .task-action h4{
+    color: var(--ion-tx-color);
+  }
+
+  .task-action .task-action-icon{
+    font-size: 1.5rem;
+  }
+
+
+.no-task-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: var(--ion-color-medium);
+}
+
+.no-task-message h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.add-task-button {
+  margin-top: 20px;
+  text-transform: none;
+  --border-radius: 10px;
+  --box-shadow: none !important;
+  font-weight: 700;
+}
+
+.no-task-buttons{
+  display: flex;
+}

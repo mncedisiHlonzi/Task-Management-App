@@ -1,0 +1,71 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="custom-back-button" default-href="#">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="profile-container">
+    <div class="profile-picture" style="position: relative;">
+      <img [src]="profilePicture" alt="Profile Picture" />
+      
+      <!-- Button to select or take a picture -->
+      <ion-button 
+        *ngIf="!isImageSelected" 
+        fill="clear" 
+        (click)="openImageOptions()" 
+        style="position: absolute; bottom: 10px; right: 10px;">
+        <ion-icon name="camera"></ion-icon>
+      </ion-button>
+
+      <!-- Button to remove selected picture -->
+      <ion-button 
+        *ngIf="isImageSelected" 
+        fill="clear" 
+        (click)="removeSelectedPicture()" 
+        style="position: absolute; bottom: 10px; right: 10px;">
+        <ion-icon name="remove-sharp"></ion-icon>
+      </ion-button>
+    </div>
+
+    <h2>{{ username }}</h2>
+
+    <!-- Update button only appears when an image is selected -->
+    <ion-button 
+      *ngIf="isImageSelected"  
+      (click)="updateProfilePicture()" 
+      color="primary"
+      >
+      Update
+    </ion-button>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="3">
+        <div class="option-square">
+          <h4 class="number">{{ completedTasks }}</h4><!--Number of Completed Tasks-->
+          <p class="option-text">Completed</p>
+        </div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="option-square">
+          <h4 class="number">{{ incompleteTasks }}</h4><!--Number of Incompleted Tasks-->
+          <p class="option-text">Incompleted</p>
+        </div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="option-square">
+          <h4 class="number">{{ cancelledTasks }}</h4><!--Number of Cancelled Tasks-->
+          <p class="option-text">Cancelled</p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

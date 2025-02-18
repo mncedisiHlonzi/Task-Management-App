@@ -1,0 +1,116 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="custom-back-button" default-href="#">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Daily Tasks</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="search-icon">
+        <ion-icon slot="icon-only" name="scan-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Display message and button when there are no tasks -->
+  <div *ngIf="tasks.length === 0" class="no-task-message">
+    <h3>You have no task today</h3>
+    <ion-button expand="block" class="add-task-button" (click)="navigateToCreateTask()">
+      Add Task ➜
+    </ion-button>
+  </div>
+
+  <!-- Task List -->
+  <ion-card *ngFor="let task of tasks" class="modern-task">
+    <ion-card-content>
+      <div class="title-priority">
+        <h4>{{ task.title }}</h4>
+        <div [ngClass]="getPriorityClass(task.priority)" class="priority-chip">{{ task.priority | titlecase }}</div>
+      </div>
+
+      <div class="date-status">
+        <div class="date">
+          <h4 class="due-time">
+            <p class="time-txt">
+              <img src="../../assets/images/start.png" class="date-icon" />
+              Due Time
+            </p>
+            {{ task.dueTime | date: 'shortTime' }} <!--Due date-->
+          </h4>
+          <div class="line">
+            <!-- Blank space -->
+          </div>
+          <h4 class="reminder-time">
+            <p class="time-txt">
+              <img src="../../assets/images/due.png" class="date-icon" />
+              Reminder
+            </p>
+            <span *ngIf="task.reminder; else noReminder">
+              {{ task.reminder | date: 'shortTime' }}
+            </span>
+            <ng-template #noReminder>N/A</ng-template>
+          </h4>
+        </div>
+
+        <div class="status">
+          <div class="status-container">
+            <!-- Show chip if status is 'Completed' or 'Cancelled' -->
+            <ion-chip *ngIf="task.status === 'completed'" color="success">
+              <ion-label>Completed</ion-label>
+            </ion-chip>
+            <ion-chip *ngIf="task.status === 'cancelled'" color="danger">
+              <ion-label>Cancelled</ion-label>
+            </ion-chip>
+            <ion-chip *ngIf="task.status === 'Incompleted'" color="warning">
+              <ion-label>Incompleted</ion-label>
+            </ion-chip>
+            <!-- Otherwise show the select dropdown for status -->
+            <ion-select
+              *ngIf="task.status !== 'completed' && task.status !== 'cancelled' && task.status !== 'Incompleted'"
+              interface="popover"
+              placeholder="Pending..."
+              [(ngModel)]="task.status"
+              (ionChange)="changeStatus(task, $event)"
+              class="status-dropdown"
+              [disabled]="isStatusLocked[task.id]"
+              [ngClass]="{'no-indicator': isStatusLocked[task.id]}"
+              justify="end"
+            >
+              <ion-select-option value="completed">Complete</ion-select-option>
+              <ion-select-option value="cancelled">Cancel</ion-select-option>
+            </ion-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="description">
+        <p>
+          {{ task.description | slice: 0:(task.showFullDescription ? task.description.length : 100) }}
+          <span *ngIf="task.description.length > 50">
+            <a (click)="toggleDescription(task)" class="toggle-description">
+              {{ task.showFullDescription ? 'See less' : 'See more' }}
+            </a>
+          </span>
+        </p>
+      </div>
+
+      <div class="task-action">
+        <ion-icon class="task-action-icon" name="arrow-forward-outline"></ion-icon>
+        <div class="action">
+
+          <ion-button class="alert" (click)="openReminderSheet(task)">
+            <ion-icon slot="icon-only" name="alarm-outline"></ion-icon>
+          </ion-button>
+          
+
+          <ion-button color="danger" (click)="deleteTask(task)">
+            <ion-icon slot="icon-only" name="trash-sharp"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

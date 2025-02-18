@@ -1,0 +1,223 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="custom-back-button" default-href="#">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Notifications</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button class="search-icon">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- Chip segments -->
+  <div class="chip-container">
+    <ion-chip
+      *ngFor="let segment of segments; let i = index"
+      (click)="selectSegment(i)"
+      [ngClass]="{'selected-chip': selectedSegment === i}"
+      class="custom-chip"
+    >
+      <ion-icon [name]="segment.icon" class="chip-icon"></ion-icon>
+      <ion-label class="chip-label">{{ segment.label }}</ion-label>
+    </ion-chip>
+  </div>
+
+  <div class="content-container">
+
+    <ng-container *ngIf="selectedSegment === 0"> <!--New task created notification-->
+
+      <!-- Display message when there are no new tasks notifications -->
+      <div *ngIf="tasks.length === 0" class="no-task-message">
+        <h3>No new tasks notifications.</h3>
+      </div>
+
+      <ion-list class="scrollable-content" lines="none">
+        <ion-item *ngFor="let task of tasks" class="notification-item">
+          <ion-avatar aria-hidden="true" slot="start">
+            <img alt="" src="../../assets/images/10275445.png" />
+          </ion-avatar>
+          <ion-label>
+            <h4>New Task</h4>
+            <h3>{{ task.title }}</h3>
+            <p>
+              Hello {{ username }}, you've just created a 
+              <strong>{{ task.priority }}</strong> priority task 
+              <strong>{{ task.title }}</strong>. The task is due today at 
+              <strong>{{ task.dueTime | date: 'shortTime' }}</strong>, 
+              all the best with your task.
+            </p>
+            <p><span>{{ task.createdAt | dateAgo }} •</span></p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+
+    <ng-container *ngIf="selectedSegment === 1"> <!--Task completed notification-->
+
+      <!-- Display message when there are no completed tasks notifications -->
+      <div *ngIf="completedTasks.length === 0" class="no-task-message">
+        <h3>No completed tasks notifications.</h3>
+      </div>
+
+      <ion-list class="scrollable-content" lines="none">
+        <ng-container *ngFor="let task of completedTasks">
+          <ion-item class="notification-item">
+            <ion-avatar aria-hidden="true" slot="start">
+              <img alt="" src="../../assets/images/9079439.png" />
+            </ion-avatar>
+            <ion-label>
+              <h4>Task Completed</h4>
+              <h3>{{ task.title }}</h3>
+              <p>
+                Congratulations {{ username }}, you've just completed your task 
+                <strong>{{ task.title }}</strong>, 
+                <strong>{{ task.formattedTimeToDue }}</strong> away from its due time 
+                today at <strong>{{ task.dueTime | date: 'shortTime' }}</strong>.
+              </p>
+        
+              <div *ngIf="!task.taskExperience">
+                <p>• How was your task?</p>
+                <ion-chip class="chip" *ngFor="let experience of ['Exciting', 'Challenging', 'Easy', 'Good', 'Bad', 'Not bad', 'Awesome', 'Worth it', 'Exhausting', 'Enjoyable']" (click)="updateTaskExperience(task.id, experience)">
+                  <ion-label>{{ experience }}</ion-label>
+                </ion-chip>
+              </div>
+        
+              <div *ngIf="task.taskExperience">
+                <p>• How was your task?</p>
+                <ion-chip color="success">
+                  <ion-label>{{ task.taskExperience }}</ion-label>
+                </ion-chip>
+              </div>
+        
+              <p><span>{{ task.statusUpdatedAt | dateAgo }} •</span></p>
+            </ion-label>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+
+    <ng-container *ngIf="selectedSegment === 2"> <!--Incompleted task notification-->
+
+      <!-- Display message when there are no incomplete tasks notifications -->
+      <div *ngIf="incompletedTasks.length === 0" class="no-task-message">
+        <h3>No incomplete tasks notifications.</h3>
+      </div>
+
+      <ion-list class="scrollable-content" lines="none">
+        <ng-container *ngFor="let task of incompletedTasks">
+          <ion-item class="notification-item">
+            <ion-avatar aria-hidden="true" slot="start">
+              <img alt="" src="../../assets/images/fe0a06c3-0df2-4dc4-939d-c9d4c5f4d570.jpg" />
+            </ion-avatar>
+            <ion-label>
+              <h4>Task Incomplete</h4>
+              <h3>{{ task.title }}</h3>
+              <p>
+                Sorry {{ username }}, your task <strong>{{ task.title }}</strong> reached the due time 
+                <strong>{{ task.dueTime | date: 'shortTime' }}</strong>. Unfortunately you did not complete the task.
+              </p>
+    
+              <div> <!--New feature, I'll implement it later-->
+                <p>• Would you like to continue with the task and extend due time?</p>
+                <ion-chip class="chip">
+                  <ion-label>Continue</ion-label>
+                </ion-chip>
+                <ion-chip class="chip">
+                  <ion-label>Don't continue</ion-label>
+                </ion-chip>
+              </div> <!--New feature-->
+    
+              <p><span>{{ task.dueTime | dateAgo }} •</span></p>
+            </ion-label>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+
+    <ng-container *ngIf="selectedSegment === 3"> <!--Cancelled task notification-->
+
+      <!-- Display message when there are no cancelled tasks notifications -->
+      <div *ngIf="cancelledTasks.length === 0" class="no-task-message">
+        <h3>No cancelled tasks notifications.</h3>
+      </div>
+
+      <ion-list class="scrollable-content" lines="none">
+        <ng-container *ngFor="let task of cancelledTasks">
+          <ion-item class="notification-item">
+            <ion-avatar aria-hidden="true" slot="start">
+              <img alt="" src="../../assets/images/10810394.png" />
+            </ion-avatar>
+            <ion-label>
+              <h4>Cancelled Task</h4>
+              <h3>{{ task.title }}</h3>
+              <p>
+                {{ username }}, you've just cancelled your task <strong>{{ task.title }}</strong>, 
+                <strong>{{ task.formattedTimeToDue }}</strong> away from its due time 
+                today at <strong>{{ task.dueTime | date: 'shortTime' }}</strong>.
+              </p>
+            
+              <div *ngIf="!task.cancelreason">
+                <p>• Why did you cancel your task?</p>
+                <ion-chip class="chip" *ngFor="let reason of ['Lost interest', 'Not important', 'Personal reasons', 'Health reasons']" 
+                          (click)="updateCancelReason(task.id, reason)">
+                  <ion-label>{{ reason }}</ion-label>
+                </ion-chip>
+              </div>
+            
+              <div *ngIf="task.cancelreason">
+                <p>• Why did you cancel your task?</p>
+                <ion-chip color="danger">
+                  <ion-label>{{ task.cancelreason }}</ion-label>
+                </ion-chip>
+              </div>
+            
+              <p><span>{{ task.statusUpdatedAt | dateAgo }} •</span></p>
+            </ion-label>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+
+    <ng-container *ngIf="selectedSegment === 4"> <!--Reminder notification-->
+
+      <!-- Display message when there are no task reminders -->
+      <div *ngIf="tasksWithReminders.length === 0" class="no-task-message">
+        <h3>No tasks reminders yet.</h3>
+      </div>
+
+      <ion-list class="scrollable-content" lines="none">
+        <ng-container *ngFor="let task of tasksWithReminders">
+          <ion-item *ngIf="task.notificationTriggered" class="notification-item">
+            <ion-avatar aria-hidden="true" slot="start">
+              <img alt="" src="../../assets/images/11522127.png" />
+            </ion-avatar>
+            <ion-label>
+              <h4>Reminder</h4>
+              <h3>{{ task.title }}</h3>
+              <p>
+                Sure {{ username }}, it's now <strong>{{ task.reminder | date: 'shortTime' }}</strong> your reminder time.
+              </p>
+              <p> 
+                You're now left with <strong>{{ task.timeLeft }} </strong> <span class="live"></span> to complete your task <strong>{{ task.title }}</strong>, due today at 
+                <strong>{{ task.dueTime | date: 'shortTime' }}</strong>. Keep working and complete your task on time.
+              </p>
+              <p><span>{{ task.reminder | dateAgo }} •</span></p>
+            </ion-label>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+
+  </div>
+
+
+</ion-content>

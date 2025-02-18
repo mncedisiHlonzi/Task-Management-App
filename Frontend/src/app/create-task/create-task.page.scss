@@ -1,0 +1,97 @@
+ion-header {
+    ion-toolbar {
+      font-weight: bold;
+      box-shadow: none;
+      --background: var(--ion-bg-color);
+      --color: var(--ion-tx-color);
+    }
+  }
+  ion-content {
+    --background: var(--ion-bg-color);
+    --color: var(--ion-tx-color);
+  }
+  
+  .custom-back-button {
+    --border-radius: 10px !important;
+    --background: var(--plug-cards-bg);
+    --color: var(--ion-top-icons-color);
+    margin-left: 5px;
+  
+    .button-native {
+      border-radius: 10px !important;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .button-inner {
+      border-radius: 0 !important;
+    }
+  
+    .button-effect {
+      border-radius: 0 !important;
+    }
+  }
+
+
+
+
+
+
+  .task-form-card {
+    --background: var(--ion-bg-color);
+    margin: 16px;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: none !important;
+  }
+
+  ion-card-title{
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: var(--ion-tx-color);
+    font-weight: 900;
+  }
+
+  ion-item{
+    --background: var(--plug-cards-bg);
+    --color: var(--ion-tx-color);
+    margin-bottom: 7px;
+    border-radius: 7px;
+  }
+
+  ion-datetime {
+    --background: var(--ion-bg-color);
+    --background-rgb: 255, 241, 242;
+  }
+  
+  .button-container {
+    margin-top: 16px;
+  }
+  
+  .priority-dropdown {
+    width: 100%;
+    --padding-start: 8px;
+    text-align: end;
+  }
+  
+  .priority-low {
+    color: #4caf50; /* Green for low priority */
+  }
+  
+  .priority-medium {
+    color: #ff9800; /* Orange for medium priority */
+  }
+  
+  .priority-high {
+    color: #f44336; /* Red for high priority */
+  }
+  
+  ion-button{
+    text-transform: none;
+    --border-radius: 10px;
+    --box-shadow: none !important;
+    font-weight: 700;
+  }

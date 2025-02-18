@@ -1,0 +1,55 @@
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+
+const Main = sequelize.define(
+  'Main',
+  {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    dueTime: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    priority: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'low',
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'pending',
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    reminder: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    statusUpdatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    taskExperience: { // New column
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    cancelreason: { // New column
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+module.exports = Main;

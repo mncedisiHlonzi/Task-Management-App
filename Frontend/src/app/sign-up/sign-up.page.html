@@ -1,0 +1,62 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="custom-back-button" default-href="#">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-card class="form-card">
+
+    <ion-row class="tagline" routerLink="/sign-up">
+      <ion-col>
+        <ion-label>
+          <ion-text>
+            Create 
+          </ion-text>
+          <p style="margin-top: 7px;">
+            <ion-text>
+              Account
+            </ion-text>
+          </p>
+        </ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-card-content>
+
+      <!-- Username -->
+      <ion-item lines="none">
+        <ion-label position="stacked">Username</ion-label>
+        <ion-input [(ngModel)]="username"></ion-input>
+      </ion-item>
+
+      <!-- Password -->
+      <ion-item lines="none">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input [(ngModel)]="password" type="password"></ion-input>
+      </ion-item>
+
+      <div class="buttons">
+        <h4>Sign up</h4>
+        <ion-button class="button" shape="round" (click)="signUp()">
+          <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
+        </ion-button>        
+      </div>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
+
+<ion-footer [translucent]="true" class="ion-no-border">
+  <ion-button class="router" fill="clear" (click)="navigateToSignIn()">
+    Sign in ➜
+  </ion-button>
+</ion-footer>
