@@ -9,46 +9,47 @@ import { Router } from '@angular/router';
 })
 
 export class HomePage implements OnInit {
-  
+
+  isLoading: boolean = true; // Controls skeleton loading
   isDarkMode: boolean = false;
-  greeting: string = ''; // To store the dynamic greeting
-  username: string = 'Guest'; // Default username
-  profile_picture: string = '../../assets/images/user-default.png'; // Default profile image
+  greeting: string = '';
+  username: string = 'Guest';
+  profile_picture: string = '../../assets/images/user-default.png';
+  notificationCount: number = 5; // Example notification count
+
+  taskOptions = [
+    { icon: 'add-circle-outline', label: 'Create Task', action: () => this.navigateToCreateTask() },
+    { icon: 'scan-outline', label: 'View Tasks', action: () => this.navigateToViewTasks() },
+    { icon: 'analytics-outline', label: 'Analytics', action: () => this.navigateToAnalytics() }
+  ];
 
   constructor(private storage: Storage, private router: Router) {
     this.storage.create();
   }
 
   async ngOnInit() {
-    // Dark mode
+    this.setGreeting();
+    this.loadUserData();
     const darkMode = await this.storage.get('darkMode');
     this.isDarkMode = darkMode === true;
     this.setAppTheme(this.isDarkMode);
 
-    // Set dynamic greeting
-    this.setGreeting();
-
-    // Fetch logged-in user data
-    this.loadUserData();
-
-    // Update greeting in real-time every minute
-    setInterval(() => {
-      this.setGreeting();
-    }, 60000); // Update every 60 seconds
+    // Simulate loading delay of 3 seconds
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 3000);
   }
 
-  // Dark mode
   toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode; // Toggle the mode
-    this.setAppTheme(this.isDarkMode); // Apply the theme
-    this.storage.set('darkMode', this.isDarkMode); // Save the preference
+    this.isDarkMode = !this.isDarkMode;
+    this.setAppTheme(this.isDarkMode);
+    this.storage.set('darkMode', this.isDarkMode);
   }
 
   setAppTheme(darkMode: boolean) {
     document.body.classList.toggle('dark', darkMode);
   }
 
-  // Set dynamic greeting based on time of day
   setGreeting() {
     const currentHour = new Date().getHours();
     if (currentHour >= 5 && currentHour < 12) {
@@ -62,31 +63,33 @@ export class HomePage implements OnInit {
     }
   }
 
-  // Fetch user data from localStorage
   loadUserData() {
     const userData = JSON.parse(localStorage.getItem('user') || '{}');
     if (userData && userData.username) {
-      this.username = userData.username; // Update the username
+      this.username = userData.username;
     }
     if (userData.profile_picture && userData.profile_picture !== '') {
-      this.profile_picture = userData.profile_picture; // Update the profile image
+      this.profile_picture = userData.profile_picture;
     }
   }
 
   navigateToProfile() {
     this.router.navigate(['/profile']);
   }
+
   navigateToNotifications() {
     this.router.navigate(['/notifications']);
   }
+
   navigateToCreateTask() {
     this.router.navigate(['/create-task']);
   }
+
   navigateToViewTasks() {
     this.router.navigate(['/view-tasks']);
   }
+
   navigateToAnalytics() {
     this.router.navigate(['/analytics']);
   }
-  
 }

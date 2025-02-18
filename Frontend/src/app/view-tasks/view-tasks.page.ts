@@ -38,24 +38,48 @@ export class ViewTasksPage implements OnInit {
     }
   }
 
+  loading: boolean = false; // Declare the loading property
+
   // Fetch tasks from the backend
   loadTasks() {
     this.loadUserData(); // Ensure userId is loaded
+    this.loading = true; // Show skeleton
   
     if (this.userId) {
       const apiUrl = `${this.baseUrl}/tasks?userId=${this.userId}`;
+      const startTime = Date.now(); // Capture start time
+  
       this.http.get<any[]>(apiUrl).subscribe(
         (data) => {
-          this.tasks = data; // Assign fetched tasks to the tasks array
+          this.tasks = data;
+  
+          // Ensure skeleton stays for at least 3 seconds
+          const elapsedTime = Date.now() - startTime;
+          const remainingTime = Math.max(3000 - elapsedTime, 0);
+  
+          setTimeout(() => {
+            this.loading = false; // Hide skeleton
+          }, remainingTime);
         },
         (error) => {
           console.error('Error fetching tasks:', error);
+          
+          // Ensure skeleton stays for at least 3 seconds even on error
+          setTimeout(() => {
+            this.loading = false;
+          }, 3000);
         }
       );
     } else {
       console.error('User ID not found. Cannot load tasks.');
+      
+      // Still enforce the 3-second skeleton delay
+      setTimeout(() => {
+        this.loading = false;
+      }, 3000);
     }
-  }  
+  }
+  
 
   // Toggle full description
   toggleDescription(task: any) {

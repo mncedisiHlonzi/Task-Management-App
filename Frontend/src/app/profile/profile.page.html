@@ -10,62 +10,74 @@
 </ion-header>
 
 <ion-content>
-  <div class="profile-container">
+
+  <div *ngIf="isLoading" class="skeleton-loader">
+
+    <div class="profile-container">
+      <div class="profile-picture" style="background: transparent;">
+        <ion-skeleton-text animated style="width: 100%; height: 100%;" class="skeleton-style"></ion-skeleton-text>
+      </div> 
+      <h2>
+        <ion-skeleton-text animated style="width: 200px; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+      </h2>
+    </div>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="3">
+          <div class="option-square" style="border: none;">
+            <ion-skeleton-text animated style="width: 100%; height: 100%;" class="skeleton-style"></ion-skeleton-text>
+          </div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="option-square" style="border: none;">
+            <ion-skeleton-text animated style="width: 100%; height: 100%;" class="skeleton-style"></ion-skeleton-text>
+          </div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="option-square" style="border: none;">
+            <ion-skeleton-text animated style="width: 100%; height: 100%;" class="skeleton-style"></ion-skeleton-text>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div *ngIf="!isLoading" class="profile-container">
     <div class="profile-picture" style="position: relative;">
       <img [src]="profilePicture" alt="Profile Picture" />
-      
-      <!-- Button to select or take a picture -->
-      <ion-button 
-        *ngIf="!isImageSelected" 
-        fill="clear" 
-        (click)="openImageOptions()" 
-        style="position: absolute; bottom: 10px; right: 10px;">
+      <ion-button *ngIf="!isImageSelected" fill="clear" (click)="openImageOptions()" style="position: absolute; bottom: 10px; right: 10px;">
         <ion-icon name="camera"></ion-icon>
       </ion-button>
-
-      <!-- Button to remove selected picture -->
-      <ion-button 
-        *ngIf="isImageSelected" 
-        fill="clear" 
-        (click)="removeSelectedPicture()" 
-        style="position: absolute; bottom: 10px; right: 10px;">
+      <ion-button *ngIf="isImageSelected" fill="clear" (click)="removeSelectedPicture()" style="position: absolute; bottom: 10px; right: 10px;">
         <ion-icon name="remove-sharp"></ion-icon>
       </ion-button>
     </div>
 
     <h2>{{ username }}</h2>
-
-    <!-- Update button only appears when an image is selected -->
-    <ion-button 
-      *ngIf="isImageSelected"  
-      (click)="updateProfilePicture()" 
-      color="primary"
-      >
-      Update
-    </ion-button>
+    <ion-button *ngIf="isImageSelected" (click)="updateProfilePicture()" color="primary">Update</ion-button>
   </div>
 
-  <ion-grid>
+  <ion-grid *ngIf="!isLoading">
     <ion-row>
       <ion-col size="3">
         <div class="option-square">
-          <h4 class="number">{{ completedTasks }}</h4><!--Number of Completed Tasks-->
+          <h4 class="number">{{ completedTasks }}</h4>
           <p class="option-text">Completed</p>
         </div>
       </ion-col>
       <ion-col size="3">
         <div class="option-square">
-          <h4 class="number">{{ incompleteTasks }}</h4><!--Number of Incompleted Tasks-->
+          <h4 class="number">{{ incompleteTasks }}</h4>
           <p class="option-text">Incompleted</p>
         </div>
       </ion-col>
       <ion-col size="3">
         <div class="option-square">
-          <h4 class="number">{{ cancelledTasks }}</h4><!--Number of Cancelled Tasks-->
+          <h4 class="number">{{ cancelledTasks }}</h4>
           <p class="option-text">Cancelled</p>
         </div>
       </ion-col>
     </ion-row>
   </ion-grid>
-
 </ion-content>

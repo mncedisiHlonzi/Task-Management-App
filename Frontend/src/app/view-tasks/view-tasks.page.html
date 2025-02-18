@@ -15,102 +15,133 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Display message and button when there are no tasks -->
-  <div *ngIf="tasks.length === 0" class="no-task-message">
-    <h3>You have no task today</h3>
-    <ion-button expand="block" class="add-task-button" (click)="navigateToCreateTask()">
-      Add Task ➜
-    </ion-button>
+
+  <!-- Skeleton Loader -->
+  <div *ngIf="loading">
+    <ion-card *ngFor="let _ of [1,2,3]" class="modern-task" style="box-shadow: none;">
+      <ion-card-content>
+        <div class="title-priority">
+          <ion-skeleton-text animated style="width: 60%; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 40px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+        </div>
+
+        <div class="date-status" style="border-left: none;">
+          <div class="date">
+            <ion-skeleton-text animated style="width: 70px; height: 8px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 50%; height: 8px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </div>
+          <div class="status">
+            <ion-skeleton-text animated style="width: 50px; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </div>
+        </div>
+
+        <div class="description">
+          <ion-skeleton-text animated style="width: 100%; height: 10px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 100%; height: 10px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 100%; height: 10px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 60%; height: 10px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+        </div>
+
+        <div class="task-action" style="border-top: none;">
+          <ion-skeleton-text animated style="width: 50px; height: 30px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 50px; height: 30px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 
-  <!-- Task List -->
-  <ion-card *ngFor="let task of tasks" class="modern-task">
-    <ion-card-content>
-      <div class="title-priority">
-        <h4>{{ task.title }}</h4>
-        <div [ngClass]="getPriorityClass(task.priority)" class="priority-chip">{{ task.priority | titlecase }}</div>
-      </div>
+  <!-- Show actual tasks when loading is false -->
+  <div *ngIf="!loading">
+    <!-- Display message and button when there are no tasks -->
+    <div *ngIf="tasks.length === 0" class="no-task-message">
+      <h3>You have no task today</h3>
+      <ion-button expand="block" class="add-task-button" (click)="navigateToCreateTask()">
+        Add Task ➜
+      </ion-button>
+    </div>
 
-      <div class="date-status">
-        <div class="date">
-          <h4 class="due-time">
-            <p class="time-txt">
-              <img src="../../assets/images/start.png" class="date-icon" />
-              Due Time
-            </p>
-            {{ task.dueTime | date: 'shortTime' }} <!--Due date-->
-          </h4>
-          <div class="line">
-            <!-- Blank space -->
+    <!-- Task List -->
+    <ion-card *ngFor="let task of tasks" class="modern-task">
+      <ion-card-content>
+        <div class="title-priority">
+          <h4>{{ task.title }}</h4>
+          <div [ngClass]="getPriorityClass(task.priority)" class="priority-chip">{{ task.priority | titlecase }}</div>
+        </div>
+
+        <div class="date-status">
+          <div class="date">
+            <h4 class="due-time">
+              <p class="time-txt">
+                <img src="../../assets/images/start.png" class="date-icon" />
+                Due Time
+              </p>
+              {{ task.dueTime | date: 'shortTime' }} <!--Due date-->
+            </h4>
+            <div class="line"></div>
+            <h4 class="reminder-time">
+              <p class="time-txt">
+                <img src="../../assets/images/due.png" class="date-icon" />
+                Reminder
+              </p>
+              <span *ngIf="task.reminder; else noReminder">
+                {{ task.reminder | date: 'shortTime' }}
+              </span>
+              <ng-template #noReminder>N/A</ng-template>
+            </h4>
           </div>
-          <h4 class="reminder-time">
-            <p class="time-txt">
-              <img src="../../assets/images/due.png" class="date-icon" />
-              Reminder
-            </p>
-            <span *ngIf="task.reminder; else noReminder">
-              {{ task.reminder | date: 'shortTime' }}
+
+          <div class="status">
+            <div class="status-container">
+              <ion-chip *ngIf="task.status === 'completed'" color="success">
+                <ion-label>Completed</ion-label>
+              </ion-chip>
+              <ion-chip *ngIf="task.status === 'cancelled'" color="danger">
+                <ion-label>Cancelled</ion-label>
+              </ion-chip>
+              <ion-chip *ngIf="task.status === 'Incompleted'" color="warning">
+                <ion-label>Incompleted</ion-label>
+              </ion-chip>
+              <ion-select
+                *ngIf="task.status !== 'completed' && task.status !== 'cancelled' && task.status !== 'Incompleted'"
+                interface="popover"
+                placeholder="Pending..."
+                [(ngModel)]="task.status"
+                (ionChange)="changeStatus(task, $event)"
+                class="status-dropdown"
+                [disabled]="isStatusLocked[task.id]"
+                [ngClass]="{'no-indicator': isStatusLocked[task.id]}"
+                justify="end"
+              >
+                <ion-select-option value="completed">Complete</ion-select-option>
+                <ion-select-option value="cancelled">Cancel</ion-select-option>
+              </ion-select>
+            </div>
+          </div>
+        </div>
+
+        <div class="description">
+          <p>
+            {{ task.description | slice: 0:(task.showFullDescription ? task.description.length : 100) }}
+            <span *ngIf="task.description.length > 50">
+              <a (click)="toggleDescription(task)" class="toggle-description">
+                {{ task.showFullDescription ? 'See less' : 'See more' }}
+              </a>
             </span>
-            <ng-template #noReminder>N/A</ng-template>
-          </h4>
+          </p>
         </div>
 
-        <div class="status">
-          <div class="status-container">
-            <!-- Show chip if status is 'Completed' or 'Cancelled' -->
-            <ion-chip *ngIf="task.status === 'completed'" color="success">
-              <ion-label>Completed</ion-label>
-            </ion-chip>
-            <ion-chip *ngIf="task.status === 'cancelled'" color="danger">
-              <ion-label>Cancelled</ion-label>
-            </ion-chip>
-            <ion-chip *ngIf="task.status === 'Incompleted'" color="warning">
-              <ion-label>Incompleted</ion-label>
-            </ion-chip>
-            <!-- Otherwise show the select dropdown for status -->
-            <ion-select
-              *ngIf="task.status !== 'completed' && task.status !== 'cancelled' && task.status !== 'Incompleted'"
-              interface="popover"
-              placeholder="Pending..."
-              [(ngModel)]="task.status"
-              (ionChange)="changeStatus(task, $event)"
-              class="status-dropdown"
-              [disabled]="isStatusLocked[task.id]"
-              [ngClass]="{'no-indicator': isStatusLocked[task.id]}"
-              justify="end"
-            >
-              <ion-select-option value="completed">Complete</ion-select-option>
-              <ion-select-option value="cancelled">Cancel</ion-select-option>
-            </ion-select>
+        <div class="task-action">
+          <ion-icon class="task-action-icon" name="arrow-forward-outline"></ion-icon>
+          <div class="action">
+            <ion-button class="alert" (click)="openReminderSheet(task)">
+              <ion-icon slot="icon-only" name="alarm-outline"></ion-icon>
+            </ion-button>
+            <ion-button color="danger" (click)="deleteTask(task)">
+              <ion-icon slot="icon-only" name="trash-sharp"></ion-icon>
+            </ion-button>
           </div>
         </div>
-      </div>
-
-      <div class="description">
-        <p>
-          {{ task.description | slice: 0:(task.showFullDescription ? task.description.length : 100) }}
-          <span *ngIf="task.description.length > 50">
-            <a (click)="toggleDescription(task)" class="toggle-description">
-              {{ task.showFullDescription ? 'See less' : 'See more' }}
-            </a>
-          </span>
-        </p>
-      </div>
-
-      <div class="task-action">
-        <ion-icon class="task-action-icon" name="arrow-forward-outline"></ion-icon>
-        <div class="action">
-
-          <ion-button class="alert" (click)="openReminderSheet(task)">
-            <ion-icon slot="icon-only" name="alarm-outline"></ion-icon>
-          </ion-button>
-          
-
-          <ion-button color="danger" (click)="deleteTask(task)">
-            <ion-icon slot="icon-only" name="trash-sharp"></ion-icon>
-          </ion-button>
-        </div>
-      </div>
-    </ion-card-content>
-  </ion-card>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

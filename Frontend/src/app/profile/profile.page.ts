@@ -21,6 +21,8 @@ export class ProfilePage implements OnInit {
   incompleteTasks = 0;
   cancelledTasks = 0;
 
+  isLoading: boolean = true; // Track loading state
+
   constructor(
     private http: HttpClient,
     private actionSheetController: ActionSheetController,
@@ -32,6 +34,11 @@ export class ProfilePage implements OnInit {
     this.loadUserData();
     this.fetchUserDetails();
     this.fetchTaskOverview();  // Fetch task overview for the logged-in user
+
+    // Set a timeout to ensure the loader is shown for at least 3 seconds
+    setTimeout(() => {
+      this.isLoading = false; // Hide loader after 3 seconds
+    }, 3000);
   }
 
   loadUserData() {
