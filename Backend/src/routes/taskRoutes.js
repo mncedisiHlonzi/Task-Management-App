@@ -38,8 +38,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-
-
 // GET /api/tasks - Fetch all tasks
 router.get('/', async (req, res) => {
   try {
@@ -64,8 +62,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-
 // PUT /api/tasks/:id - Update a task's status
 router.put('/:id', async (req, res) => {
   try {
@@ -87,7 +83,6 @@ router.put('/:id', async (req, res) => {
     res.status(500).json({ error: 'Failed to update task status' });
   }
 });
-
 
 // PUT /api/tasks/:id/reminder - Set a task reminder
 router.put('/:id/reminder', async (req, res) => {
@@ -140,7 +135,6 @@ router.put('/:id/reminder', async (req, res) => {
     res.status(500).json({ error: 'Failed to update reminder' });
   }
 });
-
 
 // DELETE /api/tasks/:id - Delete a task
 router.delete('/:id', async (req, res) => {

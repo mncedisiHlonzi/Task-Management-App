@@ -319,7 +319,7 @@ export class ViewTasksPage implements OnInit {
 
   // Navigate to Create Task Page
   navigateToCreateTask() {
-    this.router.navigate(['/create-task']); // Adjust the route as per your app's routing module
+    this.router.navigate(['/create-task']);
   }
 
   timeChange(time: string): string {

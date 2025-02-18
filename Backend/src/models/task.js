@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Main = require('./main'); // Assuming you also define the Main model
+const Main = require('./main');
 
 const Task = sequelize.define(
   'Task',
@@ -38,7 +38,7 @@ const Task = sequelize.define(
     },
     statusUpdatedAt: {
       type: DataTypes.DATE,
-      allowNull: true, // Optional initially
+      allowNull: true,
     },
   },
   {
@@ -76,7 +76,7 @@ Task.afterUpdate(async (task, options) => {
         updatedAt: task.updatedAt,
         statusUpdatedAt: task.statusUpdatedAt,
       },
-      { where: { id: task.id } } // Ensure this matches the record in Main
+      { where: { id: task.id } }
     );
   } catch (error) {
     console.error('Error updating Main table:', error);
@@ -86,7 +86,7 @@ Task.afterUpdate(async (task, options) => {
 // Hook: Delete from Main when a Task is deleted
 Task.afterDestroy(async (task, options) => {
   try {
-    await Main.destroy({ where: { id: task.id } }); // Ensure this matches the record in Main
+    await Main.destroy({ where: { id: task.id } });
   } catch (error) {
     console.error('Error deleting from Main table:', error);
   }

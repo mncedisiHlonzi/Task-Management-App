@@ -15,7 +15,6 @@ export class NotificationsPage implements OnInit {
   userId: number | null = null; // To store user ID
   username: string = ''; // To store username
 
-
   segments = [
     { label: 'New', icon: 'add-outline' },
     { label: 'Completed', icon: 'checkmark-done-circle-outline' },
@@ -202,7 +201,6 @@ export class NotificationsPage implements OnInit {
       }
     );
   }
-  
 
   // Fetch cancelled tasks from the backend
   loadCancelledTasks() {
@@ -249,8 +247,6 @@ export class NotificationsPage implements OnInit {
     );
   }
   
-
-
   loadIncompletedTasks() {
     if (this.userId) {
       const apiUrl = `http://172.168.161.212:3000/api/mains/incompleted-tasks?userId=${this.userId}`;
@@ -266,7 +262,5 @@ export class NotificationsPage implements OnInit {
       console.error('User ID not found. Cannot load incompleted tasks.');
     }
   }
-
-  
 
 }

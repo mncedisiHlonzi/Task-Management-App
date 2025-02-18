@@ -38,11 +38,11 @@ const Main = sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
     },
-    taskExperience: { // New column
+    taskExperience: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    cancelreason: { // New column
+    cancelreason: {
       type: DataTypes.STRING,
       allowNull: true,
     },

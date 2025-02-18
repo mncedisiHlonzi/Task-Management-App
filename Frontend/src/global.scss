@@ -35,13 +35,6 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
-  
-
-
-
-
-
-
 
 .custom-alert {
   --background: var(--ion-bg-color);
@@ -82,39 +75,26 @@
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 .custom-action-sheet {
   --background: var(--ion-bg-color);
-  --border-radius: 12px; /* Rounded corners */
+  --border-radius: 12px;
 
   .action-sheet-button {
-    --color: #374151; /* Button text color */
-    font-size: 16px; /* Button font size */
-    font-weight: bold; /* Button font weight */
-    border-radius: 8px; /* Rounded corners for buttons */
-    margin: 4px 0; /* Spacing between buttons */
-    padding: 12px; /* Padding inside buttons */
+    --color: #374151;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    margin: 4px 0;
+    padding: 12px;
   }
 
   .action-sheet-button-cancel {
-    --color: var(--ion-color-danger); /* Cancel button text color */
+    --color: var(--ion-color-danger);
   }
 
   ion-icon {
-    font-size: 20px; /* Icon size */
-    margin-right: 8px; /* Space between icon and text */
+    font-size: 20px;
+    margin-right: 8px;
   }
 }
 .custom-action-sheet .action-sheet-title {

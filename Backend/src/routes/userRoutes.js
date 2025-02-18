@@ -7,7 +7,7 @@ const multer = require('multer');
 const path = require('path');
 
 const SECRET_KEY = 'task2024';
-const BASE_URL = 'http://172.168.161.212:3000'; // Update this to your server's base URL
+const BASE_URL = 'http://172.168.161.212:3000';
 
 // POST /api/users - Create a new user
 router.post('/', async (req, res) => {

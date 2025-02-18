@@ -16,7 +16,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Serving static files from the uploads directory
-const uploadsPath = path.resolve(__dirname, 'uploads'); // Ensure correct resolution
+const uploadsPath = path.resolve(__dirname, 'uploads');
 console.log(`Serving static files from: ${uploadsPath}`);
 app.use('/uploads', express.static(uploadsPath));
 

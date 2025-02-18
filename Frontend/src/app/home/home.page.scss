@@ -54,8 +54,8 @@ ion-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), /* Soft shadow below */
-              0 1px 3px rgba(0, 0, 0, 0.06); /* Light shadow for detail */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+              0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .notification-badge {
@@ -112,8 +112,8 @@ ion-row.tagline {
   box-shadow: none !important;
   padding: 16px;
   margin: 16px;
-  position: relative; /* Ensure the pseudo-element is positioned relative to this card */
-  overflow: hidden; /* Prevent the background from spilling outside */
+  position: relative;
+  overflow: hidden;
 }
 
 .task-options-card::before {
@@ -124,9 +124,9 @@ ion-row.tagline {
   width: 100%;
   height: 100%;
   background: url('../../assets/images/card.png') no-repeat center center;
-  background-size: cover; /* Makes the image cover the whole card */
-  opacity: 0.3; /* Subtle effect */
-  z-index: 0; /* Ensure it stays below the content */
+  background-size: cover;
+  opacity: 0.3;
+  z-index: 0;
 }
 
 .task-options-card ion-card-title {
@@ -142,7 +142,7 @@ ion-row.tagline {
   height: 90px;
   background-color: var(--plug-cards-bg); //--ion-bg-color
   border-radius: 12px;
-  border: 1px solid #ececec; //border
+  border: 1px solid #ececec;
   transition: transform 0.2s;
   cursor: pointer;
 }

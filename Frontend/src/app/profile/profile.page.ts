@@ -157,13 +157,6 @@ export class ProfilePage implements OnInit {
     return new Blob([arrayBuffer], { type: 'image/jpeg' });
   }
 
-
-
-
-  /**
-   * Add here.
-   */
-
   //
   fetchTaskOverview() {
     this.taskService.getTaskOverview(this.userId!).subscribe(

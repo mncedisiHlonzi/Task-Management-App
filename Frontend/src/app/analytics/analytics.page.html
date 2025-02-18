@@ -18,11 +18,10 @@
 
 <ion-content [fullscreen]="true">
 
+  <!-- Task Overview Card -->
   <ion-card class="card">
     <ion-card-header>
-      <ion-card-title>
-        Task Overview
-      </ion-card-title>
+      <ion-card-title>Task Overview</ion-card-title>
       <ion-card-subtitle>
         <ion-label>Total Tasks</ion-label>
         <ion-note>{{ totalTasks }}</ion-note>
@@ -31,6 +30,7 @@
 
     <ion-grid>
       <ion-row>
+        <!-- Pending Rate -->
         <ion-col size="6">
           <div class="option-square">
             <ion-icon color="medium" name="contrast-outline" class="option-icon"></ion-icon>
@@ -44,6 +44,7 @@
           </div>
         </ion-col>
 
+        <!-- Completion Rate -->
         <ion-col size="6">
           <div class="option-square">
             <ion-icon color="success" name="checkmark-done-circle-outline" class="option-icon"></ion-icon>
@@ -57,6 +58,7 @@
           </div>
         </ion-col>
 
+        <!-- Incomplete Rate -->
         <ion-col size="6">
           <div class="option-square">
             <ion-icon color="warning" name="warning-outline" class="option-icon"></ion-icon>
@@ -70,6 +72,7 @@
           </div>
         </ion-col>
 
+        <!-- Cancellation Rate -->
         <ion-col size="6">
           <div class="option-square">
             <ion-icon color="danger" name="close-circle-outline" class="option-icon"></ion-icon>
@@ -91,9 +94,7 @@
         <ion-note slot="end">{{ averageTimeToComplete }}</ion-note>
       </ion-item>
     </ion-card-content>
-
   </ion-card>
-
 
   <!-- Chart displaying task stats -->
   <ion-card class="card">
@@ -102,7 +103,6 @@
     </ion-card-header>
 
     <ion-card-content>
-
       <canvas id="taskChart"></canvas>  <!-- The chart will be displayed here -->
 
       <!-- Chart Type Selector -->
@@ -115,28 +115,28 @@
           <ion-select-option value="line">Line</ion-select-option>
         </ion-select>
       </ion-item>
-
     </ion-card-content>
   </ion-card>
 
-
-
+  <!-- Task Priority Card -->
   <ion-card class="card" style="box-shadow: none !important;">
     <ion-card-header>
       <ion-card-title>Task Priority</ion-card-title>
     </ion-card-header>
     <ion-card-content>
+      <!-- High Priority Tasks -->
       <ion-item lines="none" class="priority-item">
         <ion-icon slot="start" style="color: #f44336;" name="ellipse-outline"></ion-icon>
         <ion-label>High Priority Tasks</ion-label>
         <ion-note slot="end">{{ highPriorityTasks }} | {{ highRate }}%</ion-note>
       </ion-item>
+      <!-- Medium Priority Tasks -->
       <ion-item lines="none" class="priority-item">
         <ion-icon slot="start" style="color: #ff9800;" name="ellipse-outline"></ion-icon>
         <ion-label>Medium Priority Tasks</ion-label>
-        <ion-note slot="end">{{ mediumPriorityTasks }} | {{ mediumRate }}%
-        </ion-note>
+        <ion-note slot="end">{{ mediumPriorityTasks }} | {{ mediumRate }}%</ion-note>
       </ion-item>
+      <!-- Low Priority Tasks -->
       <ion-item lines="none" class="priority-item">
         <ion-icon slot="start" style="color: #4caf50;" name="ellipse-outline"></ion-icon>
         <ion-label>Low Priority Tasks</ion-label>
@@ -144,10 +144,9 @@
       </ion-item>
 
       <ion-item style="border-radius: 7px;" lines="none">
-        <ion-label>Most prioritized</ion-label>
+        <ion-label>Most Prioritized</ion-label>
         <ion-note slot="end">{{ mostPrioritized }}</ion-note>
       </ion-item>
-      
     </ion-card-content>
   </ion-card>
 

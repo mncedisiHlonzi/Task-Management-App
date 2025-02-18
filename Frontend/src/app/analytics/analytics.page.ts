@@ -65,14 +65,12 @@ export class AnalyticsPage implements OnInit {
     }
   }
   
-  
-
   // Fetch user from local storage
   getUserFromLocalStorage() {
-    const user = localStorage.getItem('user'); // Replace 'user' with the actual key used
+    const user = localStorage.getItem('user');
     if (user) {
       const parsedUser = JSON.parse(user);
-      this.userId = parsedUser.id; // Ensure the user object has an 'id' field
+      this.userId = parsedUser.id;
     }
   }
 
@@ -151,7 +149,6 @@ export class AnalyticsPage implements OnInit {
     }
   }
   
-
   // Create the chart using the task stats
   createChart() {
     // Destroy the existing chart if it exists
@@ -188,6 +185,5 @@ export class AnalyticsPage implements OnInit {
   changeChartType(newChartType: ChartType) {
     this.chartType = newChartType;
     this.createChart(); // Re-create the chart with the new type
-  }
-  
+  }  
 }

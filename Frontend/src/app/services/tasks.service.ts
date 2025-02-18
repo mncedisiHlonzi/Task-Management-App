@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://172.168.161.212:3000/api/mains'; // Update with your actual base URL
+  private apiUrl = 'http://172.168.161.212:3000/api/mains';
 
   constructor(private http: HttpClient) {}
 
