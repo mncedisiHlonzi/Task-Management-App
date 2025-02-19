@@ -38,7 +38,7 @@ export class ProfilePage implements OnInit {
     // Set a timeout to ensure the loader is shown for at least 3 seconds
     setTimeout(() => {
       this.isLoading = false; // Hide loader after 3 seconds
-    }, 3000);
+    }, 1000);
   }
 
   loadUserData() {

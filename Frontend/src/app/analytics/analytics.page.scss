@@ -152,3 +152,10 @@ ion-chip {
 .priority-item {
   --background: transparent;
 }
+
+//Skeleton style
+
+.skeleton-style{
+  --background: rgba(188, 0, 255, 0.065);
+  --background-rgb: 188, 0, 255;
+}

@@ -28,7 +28,7 @@ export class CreateTaskPage implements OnInit {
     // Show the skeleton for 3 seconds before revealing the form
     setTimeout(() => {
       this.isLoading = false;
-    }, 3000);
+    }, 1000);
   }
 
   loadUserData() {

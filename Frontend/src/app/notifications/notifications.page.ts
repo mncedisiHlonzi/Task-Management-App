@@ -44,7 +44,7 @@ export class NotificationsPage implements OnInit {
     // Set a timeout to hide the loader after 3 seconds
     setTimeout(() => {
       this.isLoading = false; // Hide loader after 3 seconds
-    }, 3000);
+    }, 1000);
   }
 
   // Fetch user ID and username from localStorage

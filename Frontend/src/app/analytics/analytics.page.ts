@@ -54,22 +54,30 @@ export class AnalyticsPage implements OnInit {
   constructor(private taskService: TaskService) {}
 
   ngOnInit() {
-    this.getUserFromLocalStorage();  // Fetch user info from localStorage
-  
+    this.getUserFromLocalStorage();
+
     if (this.userId) {
-      this.fetchTaskOverview();  // Fetch task overview for the logged-in user
+      this.fetchTaskOverview();
       this.fetchTaskPriority();
-      this.fetchTaskStats();     // Fetch task stats for the logged-in user
+      this.fetchTaskStats();
       this.fetchTaskPriorityStats();
     } else {
       console.error('User not found in localStorage');
-      // Optionally redirect the user to the login page
     }
 
-    // Set a timeout to hide the loader after 3 seconds
+    // Delay the hiding of the skeleton and ensure chart loads after DOM update
     setTimeout(() => {
-      this.isLoading = false; // Hide loader after 3 seconds
-    }, 3000);
+      this.isLoading = false;
+    }, 1000);
+  }
+
+  // Wait for the view to be initialized before rendering the chart
+  ngAfterViewInit() {
+    setTimeout(() => {
+      if (!this.isLoading) {
+        this.createChart();
+      }
+    }, 1100); // Small delay to ensure the DOM updates first
   }
   
   // Fetch user from local storage
@@ -158,34 +166,36 @@ export class AnalyticsPage implements OnInit {
   
   // Create the chart using the task stats
   createChart() {
-    // Destroy the existing chart if it exists
-    if (this.chart) {
-      this.chart.destroy();
-    }
+    setTimeout(() => {
+      if (this.chart) {
+        this.chart.destroy(); // Destroy previous instance
+      }
 
-    // Create a new chart
-    this.chart = new Chart('taskChart', {
-      type: this.chartType,  // Use the chartType variable to dynamically change the type
-      data: {
-        labels: ['Pending', 'Completed', 'Cancelled', 'Incomplete'],  // Labels for each section
-        datasets: [{
-          data: [this.pendingRate, this.completionRate, this.cancellationRate, this.incompleteRate], // Values to display
-          backgroundColor: ['#92949c', '#12e44a', '#c5000f', '#ffc409'],  // Colors for each section
-          hoverBackgroundColor: ['#92949c', '#218838', '#c82333', '#e0a800']
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top'
-          },
-          tooltip: {
-            enabled: true
+      const ctx = document.getElementById('taskChart') as HTMLCanvasElement;
+      if (!ctx) {
+        console.error('Canvas element not found!');
+        return;
+      }
+
+      this.chart = new Chart(ctx, {
+        type: this.chartType,
+        data: {
+          labels: ['Pending', 'Completed', 'Cancelled', 'Incomplete'],
+          datasets: [{
+            data: [this.pendingRate, this.completionRate, this.cancellationRate, this.incompleteRate],
+            backgroundColor: ['#92949c', '#12e44a', '#c5000f', '#ffc409'],
+            hoverBackgroundColor: ['#92949c', '#218838', '#c82333', '#e0a800']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+            tooltip: { enabled: true }
           }
         }
-      }
-    });
+      });
+    }, 100); // Small delay to ensure canvas is available
   }
 
   // Method to change the chart type dynamically

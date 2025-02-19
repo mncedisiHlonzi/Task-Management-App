@@ -55,7 +55,7 @@ export class ViewTasksPage implements OnInit {
   
           // Ensure skeleton stays for at least 3 seconds
           const elapsedTime = Date.now() - startTime;
-          const remainingTime = Math.max(3000 - elapsedTime, 0);
+          const remainingTime = Math.max(1000 - elapsedTime, 0);
   
           setTimeout(() => {
             this.loading = false; // Hide skeleton
@@ -67,7 +67,7 @@ export class ViewTasksPage implements OnInit {
           // Ensure skeleton stays for at least 3 seconds even on error
           setTimeout(() => {
             this.loading = false;
-          }, 3000);
+          }, 1000);
         }
       );
     } else {
@@ -76,7 +76,7 @@ export class ViewTasksPage implements OnInit {
       // Still enforce the 3-second skeleton delay
       setTimeout(() => {
         this.loading = false;
-      }, 3000);
+      }, 1000);
     }
   }
   

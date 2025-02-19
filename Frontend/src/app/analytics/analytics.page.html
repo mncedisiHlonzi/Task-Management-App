@@ -1,5 +1,18 @@
 <ion-header class="ion-no-border" [translucent]="true">
-  <ion-toolbar>
+
+  <ion-toolbar *ngIf="isLoading" class="skeleton-loader">
+    <ion-buttons slot="start">
+      <ion-skeleton-text animated style="width: 50px; height: 50px; border-radius: 10px; margin-left: 5px;" class="skeleton-style"></ion-skeleton-text>
+    </ion-buttons>
+    <ion-title>
+      <ion-skeleton-text animated style="width: 120px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-skeleton-text animated style="width: 50px; height: 50px; border-radius: 10px; margin-right: 5px;" class="skeleton-style"></ion-skeleton-text>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar *ngIf="!isLoading">
     <ion-buttons slot="start">
       <ion-back-button class="custom-back-button" default-href="#">
         <ion-icon name="chevron-back-outline"></ion-icon>
@@ -18,8 +31,131 @@
 
 <ion-content [fullscreen]="true">
 
+  <!-- Skeleton Loader -->
+  <div *ngIf="isLoading">
+    <ion-card class="card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-skeleton-text animated style="width: 40%; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+        </ion-card-title>
+        <ion-card-subtitle>
+          <ion-label>
+            <ion-skeleton-text animated style="width: 110px; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-label>
+          <ion-note>
+            <ion-skeleton-text animated style="width: 40px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-note>
+        </ion-card-subtitle>
+      </ion-card-header>     
+      <ion-grid>
+        <ion-row>
+          <!-- Pending Rate -->
+          <ion-col size="6">
+            <ion-skeleton-text animated style="width: 100%; height: 80px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-col> 
+          <!-- Completion Rate -->
+          <ion-col size="6">
+            <ion-skeleton-text animated style="width: 100%; height: 80px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-col> 
+          <!-- Incomplete Rate -->
+          <ion-col size="6">
+            <ion-skeleton-text animated style="width: 100%; height: 80px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-col>  
+          <!-- Cancellation Rate -->
+          <ion-col size="6">
+            <ion-skeleton-text animated style="width: 100%; height: 80px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-card-content>
+        <ion-skeleton-text animated style="width: 100%; height: 40px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="isLoading">
+    <ion-card class="card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-skeleton-text animated style="width: 40%; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas>
+          <ion-skeleton-text animated ></ion-skeleton-text>
+        </canvas> 
+        <!-- Chart Type Selector -->
+        <ion-item style="margin-top: 15px; border-radius: 7px; --background: transparent;" lines="none">
+          <ion-skeleton-text animated style="width: 100%; height: 100%; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="isLoading">
+    <ion-card class="card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-skeleton-text animated style="width: 40%; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- High Priority Tasks -->
+        <ion-item lines="none" class="priority-item">
+          <ion-note slot="start">
+            <ion-skeleton-text animated style="width: 30px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-note>
+          <ion-label>
+            <ion-skeleton-text animated style="width: 60%; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-label>
+          <ion-note slot="end">
+            <ion-skeleton-text animated style="width: 60px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-note>
+        </ion-item>
+        <!-- Medium Priority Tasks -->
+        <ion-item lines="none" class="priority-item">
+          <ion-note slot="start">
+            <ion-skeleton-text animated style="width: 30px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-note>
+          <ion-label>
+            <ion-skeleton-text animated style="width: 60%; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-label>
+          <ion-note slot="end">
+            <ion-skeleton-text animated style="width: 60px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-note>
+        </ion-item>
+        <!-- Low Priority Tasks -->
+        <ion-item lines="none" class="priority-item">
+          <ion-note slot="start">
+            <ion-skeleton-text animated style="width: 30px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-note>
+          <ion-label>
+            <ion-skeleton-text animated style="width: 60%; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-label>
+          <ion-note slot="end">
+            <ion-skeleton-text animated style="width: 60px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </ion-note>
+        </ion-item>
+  
+        <ion-item style="border-radius: 7px; --background: transparent;" lines="none">
+          <ion-skeleton-text animated style="width: 100%; height: 100%; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+
+
+
+
+
+
+
+
   <!-- Task Overview Card -->
-  <ion-card class="card">
+  <ion-card class="card" *ngIf="!isLoading">
     <ion-card-header>
       <ion-card-title>Task Overview</ion-card-title>
       <ion-card-subtitle>
@@ -97,7 +233,7 @@
   </ion-card>
 
   <!-- Chart displaying task stats -->
-  <ion-card class="card">
+  <ion-card class="card" *ngIf="!isLoading">
     <ion-card-header>
       <ion-card-title>Task Status</ion-card-title>
     </ion-card-header>
@@ -119,7 +255,7 @@
   </ion-card>
 
   <!-- Task Priority Card -->
-  <ion-card class="card" style="box-shadow: none !important;">
+  <ion-card class="card" style="box-shadow: none !important;" *ngIf="!isLoading">
     <ion-card-header>
       <ion-card-title>Task Priority</ion-card-title>
     </ion-card-header>
