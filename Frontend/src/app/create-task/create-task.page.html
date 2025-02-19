@@ -1,5 +1,11 @@
 <ion-header class="ion-no-border" [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar *ngIf="isLoading" class="skeleton-loader">
+    <ion-buttons slot="start">
+      <ion-skeleton-text animated style="width: 50px; height: 50px; border-radius: 10px; margin-left: 5px;" class="skeleton-style"></ion-skeleton-text>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="!isLoading">
     <ion-buttons slot="start">
       <ion-back-button class="custom-back-button" default-href="#">
         <ion-icon name="chevron-back-outline"></ion-icon>
@@ -10,59 +16,86 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card class="task-form-card">
+  <!-- Skeleton Loader -->
+  <div *ngIf="isLoading">
+    <ion-card class="task-form-card" style="margin: 16px; padding: 16px;">
+      <ion-card-title>
+        <ion-skeleton-text animated style="width: 150px; height: 20px; margin: 16px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+      </ion-card-title>
 
-    <ion-card-title>Create new task</ion-card-title>     
+      <ion-item lines="none" style="--background: none;">
+        <ion-skeleton-text animated style="width: 100%; height: 50px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+      </ion-item>
 
-    <!-- Task Title -->
-    <ion-item lines="none">
-      <ion-label position="stacked">Task Title</ion-label>
-      <ion-input [(ngModel)]="task.title"></ion-input>
-    </ion-item>
+      <ion-item lines="none" style="--background: none;">
+        <ion-skeleton-text animated style="width: 100%; height: 75px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+      </ion-item>
 
-    <!-- Task Description -->
-    <ion-item lines="none">
-      <ion-label position="stacked">Task Description</ion-label>
-      <ion-textarea [(ngModel)]="task.description" [autoGrow]="true"></ion-textarea>
-    </ion-item>
+      <ion-item lines="none" style="--background: none;">
+        <ion-skeleton-text animated style="width: 100%; height: 50px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+      </ion-item>
 
-    <!-- Due Time -->
-    <ion-item lines="none">
-      <ion-input
-        label="Due Time"
-        labelPlacement="stacked"
-        value="{{ task.dueTime | date:'shortTime' }}"
-        id="dueTime"
-        class="ion-text-end"
-      ></ion-input>
-      <ion-popover trigger="dueTime" size="cover">
-        <ng-template>
-          <ion-datetime
-            presentation="time"
-            [(ngModel)]="task.dueTime"
-            (ionChange)="dueTimeChanged($event)"
-            placeholder="Select time"
-            value-format="HH:mm"
-            display-format="HH:mm"
-          ></ion-datetime>
-        </ng-template>
-      </ion-popover>
-    </ion-item>    
+      <ion-item lines="none" style="--background: none;">
+        <ion-skeleton-text animated style="width: 100%; height: 50px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+      </ion-item>
 
-    <!-- Task Priority -->
-    <ion-item lines="none">
-      <ion-label position="stacked">Priority</ion-label>
-      <ion-select interface="popover" placeholder="Select Priority" [(ngModel)]="task.priority" class="priority-dropdown" justify="end">
-        <ion-select-option value="low" class="priority-low">Low</ion-select-option>
-        <ion-select-option value="medium" class="priority-medium">Medium</ion-select-option>
-        <ion-select-option value="high" class="priority-high">High</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <div class="button-container">
+        <ion-button style="--background: none;">
+          <ion-skeleton-text animated style="width: 85px; height: 30px;" class="skeleton-style"></ion-skeleton-text>
+        </ion-button>
+      </div>
+    </ion-card>
+  </div>
 
-    <!-- Create Task Button -->
-    <div class="button-container">
-      <ion-button (click)="createTask()">Create Task  ➜</ion-button>
-    </div>
+  <!-- Actual Form -->
+  <div *ngIf="!isLoading">
+    <ion-card class="task-form-card">
+      <ion-card-title>Create new task</ion-card-title>     
 
-  </ion-card>
+      <ion-item lines="none">
+        <ion-label position="stacked">Task Title</ion-label>
+        <ion-input [(ngModel)]="task.title"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Task Description</ion-label>
+        <ion-textarea [(ngModel)]="task.description" [autoGrow]="true"></ion-textarea>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-input
+          label="Due Time"
+          labelPlacement="stacked"
+          value="{{ task.dueTime | date:'shortTime' }}"
+          id="dueTime"
+          class="ion-text-end"
+        ></ion-input>
+        <ion-popover trigger="dueTime" size="cover">
+          <ng-template>
+            <ion-datetime
+              presentation="time"
+              [(ngModel)]="task.dueTime"
+              (ionChange)="dueTimeChanged($event)"
+              placeholder="Select time"
+              value-format="HH:mm"
+              display-format="HH:mm"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>    
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Priority</ion-label>
+        <ion-select interface="popover" placeholder="Select Priority" [(ngModel)]="task.priority" class="priority-dropdown" justify="end">
+          <ion-select-option value="low" class="priority-low">Low</ion-select-option>
+          <ion-select-option value="medium" class="priority-medium">Medium</ion-select-option>
+          <ion-select-option value="high" class="priority-high">High</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <div class="button-container">
+        <ion-button (click)="createTask()">Create Task  ➜</ion-button>
+      </div>
+    </ion-card>
+  </div>
 </ion-content>

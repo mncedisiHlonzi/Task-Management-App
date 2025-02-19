@@ -49,6 +49,8 @@ export class AnalyticsPage implements OnInit {
   public chart: any;  // Chart variable
   chartType: ChartType = 'line';  // Default chart type
 
+  isLoading: boolean = true; // Add loading state
+
   constructor(private taskService: TaskService) {}
 
   ngOnInit() {
@@ -63,6 +65,11 @@ export class AnalyticsPage implements OnInit {
       console.error('User not found in localStorage');
       // Optionally redirect the user to the login page
     }
+
+    // Set a timeout to hide the loader after 3 seconds
+    setTimeout(() => {
+      this.isLoading = false; // Hide loader after 3 seconds
+    }, 3000);
   }
   
   // Fetch user from local storage

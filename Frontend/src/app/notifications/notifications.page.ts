@@ -15,6 +15,8 @@ export class NotificationsPage implements OnInit {
   userId: number | null = null; // To store user ID
   username: string = ''; // To store username
 
+  isLoading: boolean = true; // Add loading state
+
   segments = [
     { label: 'New', icon: 'add-outline' },
     { label: 'Completed', icon: 'checkmark-done-circle-outline' },
@@ -38,6 +40,11 @@ export class NotificationsPage implements OnInit {
     this.loadCompletedTasks(); // Load completed tasks
     this.loadCancelledTasks(); // Load cancelled tasks
     this.loadIncompletedTasks(); // Load Incompleted tasks
+
+    // Set a timeout to hide the loader after 3 seconds
+    setTimeout(() => {
+      this.isLoading = false; // Hide loader after 3 seconds
+    }, 3000);
   }
 
   // Fetch user ID and username from localStorage

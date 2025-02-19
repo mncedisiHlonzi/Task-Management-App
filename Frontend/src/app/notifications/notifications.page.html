@@ -1,5 +1,17 @@
 <ion-header class="ion-no-border" [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar *ngIf="isLoading" class="skeleton-loader">
+    <ion-buttons slot="start">
+      <ion-skeleton-text animated style="width: 50px; height: 50px; border-radius: 10px; margin-left: 5px;" class="skeleton-style"></ion-skeleton-text>
+    </ion-buttons>
+    <ion-title>
+      <ion-skeleton-text animated style="width: 120px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-skeleton-text animated style="width: 50px; height: 50px; border-radius: 10px; margin-right: 5px;" class="skeleton-style"></ion-skeleton-text>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar *ngIf="!isLoading">
     <ion-buttons slot="start">
       <ion-back-button class="custom-back-button" default-href="#">
         <ion-icon name="chevron-back-outline"></ion-icon>
@@ -18,8 +30,47 @@
 
 <ion-content [fullscreen]="true">
 
+  <!-- Skeleton Loader -->
+  <div *ngIf="isLoading" class="skeleton-loader">
+
+    <div class="chip-container">
+      <ion-chip
+        *ngFor="let segment of segments; let i = index"
+        style="background: transparent;"
+      >
+      <ion-skeleton-text animated style="width: 110px; height: 30px; border-radius: 25px;" class="skeleton-style"></ion-skeleton-text>
+      </ion-chip>
+    </div>
+
+    <ion-list lines="none">
+      <ion-item *ngFor="let i of [].constructor(5); let index = index" class="notification-item">
+        <ion-avatar aria-hidden="true" slot="start">
+          <ion-skeleton-text animated style="width: 100%; height: 100%;" class="skeleton-style"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label>
+          <h4>
+            <ion-skeleton-text animated style="width: 100px; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </h4>
+          <h3>
+            <ion-skeleton-text animated style="width: 120px; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 100%; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 100%; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 100%; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 100%; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 30%; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 35px; height: 15px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
   <!-- Chip segments -->
-  <div class="chip-container">
+  <div class="chip-container" *ngIf="!isLoading">
     <ion-chip
       *ngFor="let segment of segments; let i = index"
       (click)="selectSegment(i)"
@@ -31,7 +82,7 @@
     </ion-chip>
   </div>
 
-  <div class="content-container">
+  <div class="content-container" *ngIf="!isLoading">
 
     <ng-container *ngIf="selectedSegment === 0"> <!--New task created notification-->
 

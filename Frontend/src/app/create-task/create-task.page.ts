@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-create-task',
   templateUrl: './create-task.page.html',
   styleUrls: ['./create-task.page.scss'],
 })
-export class CreateTaskPage {
+export class CreateTaskPage implements OnInit {
+  isLoading = true; // Controls skeleton visibility
+
   task = {
     title: '',
     description: '',
@@ -15,16 +17,20 @@ export class CreateTaskPage {
     priority: 'low',
   };
 
-  userId: number | null = null; // To store user ID
-
-  // Define base URL for the API
+  userId: number | null = null;
   private apiUrl = 'http://172.168.161.212:3000/api/tasks';
 
-  constructor(private http: HttpClient, private toastController: ToastController) {
+  constructor(private http: HttpClient, private toastController: ToastController) {}
+
+  ngOnInit() {
     this.loadUserData();
+
+    // Show the skeleton for 3 seconds before revealing the form
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 3000);
   }
 
-  // Fetch user ID from localStorage
   loadUserData() {
     const userData = JSON.parse(localStorage.getItem('user') || '{}');
     if (userData && userData.id) {
@@ -35,10 +41,9 @@ export class CreateTaskPage {
   async createTask() {
     if (this.task.title && this.task.description && this.task.dueTime && this.userId) {
       try {
-        const payload = { ...this.task, userId: this.userId }; // Include userId
+        const payload = { ...this.task, userId: this.userId };
         await this.http.post(this.apiUrl, payload).toPromise();
 
-        // Show success toast
         const toast = await this.toastController.create({
           message: `Task "${this.task.title}" created successfully!`,
           duration: 2000,
@@ -46,12 +51,10 @@ export class CreateTaskPage {
         });
         await toast.present();
 
-        // Reset form
         this.resetForm();
       } catch (error) {
         console.error('Error creating task:', error);
 
-        // Show error toast
         const toast = await this.toastController.create({
           message: 'Failed to create task. Please try again later.',
           duration: 2000,
@@ -70,19 +73,17 @@ export class CreateTaskPage {
   }
 
   dueTimeChanged(event: any) {
-    const localTime = event.detail.value; // Local time from ion-datetime
-    
+    const localTime = event.detail.value;
     if (!localTime) {
-      console.error('Invalid time value from ion-datetime:', localTime);
-      return; // Exit the method early if the value is invalid
+      console.error('Invalid time value:', localTime);
+      return;
     }
   
     try {
-      // If only time is selected (HH:mm), append the current date to form a valid UTC timestamp
-      const today = new Date().toISOString().split('T')[0]; // Current date in YYYY-MM-DD
-      const isoString = `${today}T${localTime}:00Z`; // Append time and seconds for ISO format
-      const utcTime = new Date(isoString).toISOString(); // Convert to UTC and get full timestamp
-      this.task.dueTime = utcTime; // Store the full timestamp with timezone in UTC
+      const today = new Date().toISOString().split('T')[0];
+      const isoString = `${today}T${localTime}:00Z`;
+      const utcTime = new Date(isoString).toISOString();
+      this.task.dueTime = utcTime;
     } catch (error) {
       console.error('Error processing time value:', localTime, error);
     }

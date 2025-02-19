@@ -1,5 +1,17 @@
 <ion-header class="ion-no-border" [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar *ngIf="loading" class="skeleton-loader">
+    <ion-buttons slot="start">
+      <ion-skeleton-text animated style="width: 50px; height: 50px; border-radius: 10px; margin-left: 5px;" class="skeleton-style"></ion-skeleton-text>
+    </ion-buttons>
+    <ion-title>
+      <ion-skeleton-text animated style="width: 120px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-skeleton-text animated style="width: 50px; height: 50px; border-radius: 10px; margin-right: 5px;" class="skeleton-style"></ion-skeleton-text>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar *ngIf="!loading">
     <ion-buttons slot="start">
       <ion-back-button class="custom-back-button" default-href="#">
         <ion-icon name="chevron-back-outline"></ion-icon>
@@ -18,7 +30,7 @@
 
   <!-- Skeleton Loader -->
   <div *ngIf="loading">
-    <ion-card *ngFor="let _ of [1,2,3]" class="modern-task" style="box-shadow: none;">
+    <ion-card *ngFor="let _ of [1,2,3,4,5]" class="modern-task" style="box-shadow: none;">
       <ion-card-content>
         <div class="title-priority">
           <ion-skeleton-text animated style="width: 60%; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
