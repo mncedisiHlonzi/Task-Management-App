@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
 
   isLoading: boolean = true; // Controls skeleton loading
-  isDarkMode: boolean = false;
   greeting: string = '';
   username: string = 'Guest';
   profile_picture: string = '../../assets/images/user-default.png';
@@ -30,24 +29,11 @@ export class HomePage implements OnInit {
   async ngOnInit() {
     this.setGreeting();
     this.loadUserData();
-    const darkMode = await this.storage.get('darkMode');
-    this.isDarkMode = darkMode === true;
-    this.setAppTheme(this.isDarkMode);
 
     // Simulate loading delay of 3 seconds
     setTimeout(() => {
       this.isLoading = false;
     }, 3000);
-  }
-
-  toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    this.setAppTheme(this.isDarkMode);
-    this.storage.set('darkMode', this.isDarkMode);
-  }
-
-  setAppTheme(darkMode: boolean) {
-    document.body.classList.toggle('dark', darkMode);
   }
 
   setGreeting() {
