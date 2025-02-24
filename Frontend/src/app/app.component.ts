@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { IonicModule, Platform } from '@ionic/angular';
+import { FcmService } from './services/fcm/fcm.service';
 
 @Component({
   selector: 'app-root',
@@ -8,8 +10,19 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 })
 export class AppComponent {
 
-  constructor() {
-    this.initializeApp();
+  constructor(
+    private platform: Platform,
+    private fcm: FcmService
+  ) {
+
+    this.initializeApp();  
+    
+    this.platform.ready().then(() => {
+      this.fcm.initPush();
+    }).catch(e => {
+      console.log('error fcm: ', e);
+    });
+
   }
 
   initializeApp() {

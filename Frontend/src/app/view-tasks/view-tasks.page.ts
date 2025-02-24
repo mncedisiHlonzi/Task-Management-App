@@ -279,6 +279,7 @@ export class ViewTasksPage implements OnInit {
     this.http.put(apiUrl, { reminder: reminderUTC }).subscribe(
       async (response: any) => {
         task.reminder = reminderUTC; // Update task reminder locally
+        task.isreminded = false; // Update isReminded locally (optional, backend handles this)
         await this.presentToast(`Task reminder set to ${reminder}.`);
       },
       async (error) => {

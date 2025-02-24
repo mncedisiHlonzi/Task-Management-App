@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { StorageService } from '../services/fcm/storage.service'; // Import StorageService
 
 @Component({
   selector: 'app-sign-up',
@@ -12,7 +13,12 @@ export class SignUpPage {
   username: string = '';
   password: string = '';
 
-  constructor(private http: HttpClient, private router: Router, private toastController: ToastController) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private toastController: ToastController,
+    private storage: StorageService // Inject StorageService
+  ) {}
 
   async signUp() {
     if (!this.username || !this.password) {
@@ -20,9 +26,13 @@ export class SignUpPage {
       return;
     }
 
+    // Retrieve the FCM token from local storage
+    const fcmToken = JSON.parse((await this.storage.getStorage('push_notification_token')).value);
+
     const signUpData = {
       username: this.username,
-      password: this.password
+      password: this.password,
+      fcm_token: fcmToken, // Include the FCM token
     };
 
     this.http.post('http://172.168.161.212:3000/api/users', signUpData).subscribe(

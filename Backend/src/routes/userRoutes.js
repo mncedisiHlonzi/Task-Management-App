@@ -12,7 +12,7 @@ const BASE_URL = 'http://172.168.161.212:3000';
 // POST /api/users - Create a new user
 router.post('/', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, fcm_token } = req.body; // Add fcm_token
 
     // Check if user exists
     const existingUser = await User.findOne({ where: { username } });
@@ -27,6 +27,7 @@ router.post('/', async (req, res) => {
     const newUser = await User.create({
       username,
       password: hashedPassword,
+      fcm_token, // Store the FCM token
     });
 
     res.status(201).json({ message: 'User created successfully', user: newUser });
@@ -65,6 +66,7 @@ router.post('/login', async (req, res) => {
         profile_picture: user.profile_picture
           ? `${BASE_URL}${user.profile_picture}`
           : null,
+        fcm_token: user.fcm_token, // Include the FCM token in the response
       },
     });
   } catch (error) {

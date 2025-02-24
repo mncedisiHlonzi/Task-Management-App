@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const User = require('./user'); // Import the User model
 
 const Main = sequelize.define(
   'Main',
@@ -46,10 +47,27 @@ const Main = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    fcm_token: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    isreminded: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    isReported: { 
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+// Define the association
+Main.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 module.exports = Main;

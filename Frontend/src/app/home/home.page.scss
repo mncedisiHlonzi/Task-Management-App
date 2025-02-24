@@ -65,8 +65,8 @@ ion-content {
   background-color: var(--ion-color-danger);
   color: white;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -180,8 +180,8 @@ ion-row.tagline {
 }
 
 .notification-badge-skeleton {
-  width: 45px;
-  height: 45px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   --background: rgba(188, 0, 255, 0.065);
   --background-rgb: 188, 0, 255;

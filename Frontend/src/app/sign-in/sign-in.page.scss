@@ -10,21 +10,12 @@ ion-header {
     --background: var(--ion-bg-color);
     --color: var(--ion-tx-color);
   }
-  
-  .custom-back-button {
-    --border-radius: 10px !important;
-    --background: var(--plug-cards-bg);
-    --color: var(--ion-top-icons-color);
-    margin-left: 5px;
-  
-    .button-native {
-      border-radius: 10px !important;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+
+.login-logout-icon{
+  margin-left: 20px;
+  padding-top: 40px;
+  font-size: 40px;
+  color: var(--ion-color-primary);
 }
 
 .form-card {

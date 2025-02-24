@@ -36,6 +36,15 @@ const Task = sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
     },
+    fcm_token: { // Add this column
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    isreminded: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
     statusUpdatedAt: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -56,6 +65,8 @@ Task.afterCreate(async (task, options) => {
     status: task.status,
     userId: task.userId,
     reminder: task.reminder,
+    fcm_token: task.fcm_token,
+    isreminded: task.isreminded,
     createdAt: task.createdAt,
     updatedAt: task.updatedAt,
     statusUpdatedAt: task.statusUpdatedAt,
@@ -73,6 +84,8 @@ Task.afterUpdate(async (task, options) => {
         priority: task.priority,
         status: task.status,
         reminder: task.reminder,
+        fcm_token: task.fcm_token,
+        isreminded: task.isreminded,
         updatedAt: task.updatedAt,
         statusUpdatedAt: task.statusUpdatedAt,
       },

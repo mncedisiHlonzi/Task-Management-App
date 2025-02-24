@@ -7,7 +7,7 @@ const { Sequelize } = require('sequelize');
 // POST /api/tasks - Create a new task
 router.post('/', async (req, res) => {
   try {
-    const { title, description, dueTime, priority, userId } = req.body;
+    const { title, description, dueTime, priority, userId, fcm_token } = req.body;
 
     if (!userId) {
       return res.status(400).json({ error: 'User ID is required' });
@@ -29,6 +29,7 @@ router.post('/', async (req, res) => {
       priority,
       status: 'pending',
       userId,
+      fcm_token, // Store the FCM token
     });
 
     res.status(201).json(newTask);
@@ -125,8 +126,9 @@ router.put('/:id/reminder', async (req, res) => {
         .json({ error: 'Reminder must be set before the task due time.' });
     }
 
-    // Update reminder with new time
+    // Update reminder with new time and reset isReminded to false
     task.reminder = reminderTime.toISOString();
+    task.isreminded = false; // Reset isReminded to false
     await task.save();
 
     res.status(200).json({ message: `Reminder set to ${reminderTime.toISOString()}` });

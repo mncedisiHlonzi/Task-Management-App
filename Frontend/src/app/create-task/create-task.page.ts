@@ -18,6 +18,7 @@ export class CreateTaskPage implements OnInit {
   };
 
   userId: number | null = null;
+  fcmToken: string | null = null; // Add this to store the FCM token
   private apiUrl = 'http://172.168.161.212:3000/api/tasks';
 
   constructor(private http: HttpClient, private toastController: ToastController) {}
@@ -35,13 +36,18 @@ export class CreateTaskPage implements OnInit {
     const userData = JSON.parse(localStorage.getItem('user') || '{}');
     if (userData && userData.id) {
       this.userId = userData.id;
+      this.fcmToken = userData.fcm_token; // Fetch the FCM token from user data
     }
   }
 
   async createTask() {
-    if (this.task.title && this.task.description && this.task.dueTime && this.userId) {
+    if (this.task.title && this.task.description && this.task.dueTime && this.userId && this.fcmToken) {
       try {
-        const payload = { ...this.task, userId: this.userId };
+        const payload = { 
+          ...this.task, 
+          userId: this.userId, 
+          fcm_token: this.fcmToken, // Include the FCM token from user data
+        };
         await this.http.post(this.apiUrl, payload).toPromise();
 
         const toast = await this.toastController.create({
@@ -78,7 +84,7 @@ export class CreateTaskPage implements OnInit {
       console.error('Invalid time value:', localTime);
       return;
     }
-  
+
     try {
       const today = new Date().toISOString().split('T')[0];
       const isoString = `${today}T${localTime}:00Z`;

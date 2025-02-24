@@ -13,9 +13,9 @@
 
       <!-- Notifications -->
       <div class="icon-section" (click)="navigateToNotifications()">
-        <ion-icon *ngIf="!isLoading" name="notifications-outline" class="notification-icon"></ion-icon>
+        <ion-icon *ngIf="!isLoading" name="documents-outline" class="notification-icon"></ion-icon>
         <ion-skeleton-text *ngIf="isLoading" animated class="notification-skeleton"></ion-skeleton-text>
-        <div class="notification-badge" *ngIf="!isLoading">{{ notificationCount }}</div>
+        <div class="notification-badge" *ngIf="!isLoading"> </div>
         <ion-skeleton-text *ngIf="isLoading" animated class="notification-badge-skeleton"></ion-skeleton-text>
       </div>
     </div>
