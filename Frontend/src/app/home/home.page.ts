@@ -17,7 +17,7 @@ export class HomePage implements OnInit {
   notificationCount: number = 5; // Example notification count
 
   taskOptions = [
-    { icon: 'add-circle-outline', label: 'Create Task', action: () => this.navigateToCreateTask() },
+    { icon: 'add', label: 'Create Task', action: () => this.navigateToCreateTask() },
     { icon: 'scan-outline', label: 'View Tasks', action: () => this.navigateToViewTasks() },
     { icon: 'analytics-outline', label: 'Analytics', action: () => this.navigateToAnalytics() }
   ];

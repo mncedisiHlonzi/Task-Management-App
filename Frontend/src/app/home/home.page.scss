@@ -134,27 +134,60 @@ ion-row.tagline {
   font-weight: 700;
 }
 
+/* Task Options Icons Animation */
 .option-square {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 90px;
-  background-color: var(--plug-cards-bg); //--ion-bg-color
+  background-color: var(--plug-cards-bg);
   border-radius: 12px;
   border: 1px solid #ececec;
   transition: transform 0.2s;
   cursor: pointer;
+  overflow: hidden; /* Ensure the animation doesn't overflow */
+}
+
+.option-icon {
+  font-size: 40px;
+  margin-top: 20px;
+  color: var(--ion-top-icons-color);
+  -webkit-text-stroke: 1px var(--ion-top-icons-color); /* Add outline */
+  animation: bounceScaleRotate 15s infinite ease-in-out; /* Slower animation (3s) */
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.137)); /* Sharper shadow */
+}
+
+/* Add delay to each icon */
+ion-col:nth-child(1) .option-icon {
+  animation-delay: 0s; /* First icon starts immediately */
+}
+
+ion-col:nth-child(2) .option-icon {
+  animation-delay: 8.5s; /* Second icon starts after 1s */
+}
+
+ion-col:nth-child(3) .option-icon {
+  animation-delay: 14s; /* Third icon starts after 2s */
+}
+
+@keyframes bounceScaleRotate {
+  0%, 100% {
+    transform: translateY(0) scale(1) rotate(0deg); /* Start and end position */
+  }
+  25% {
+    transform: translateY(-8px) scale(1.1) rotate(10deg); /* Bounce up and rotate slightly */
+  }
+  50% {
+    transform: translateY(0) scale(1) rotate(-10deg); /* Bounce down and rotate slightly */
+  }
+  75% {
+    transform: translateY(-4px) scale(1.05) rotate(5deg); /* Bounce up slightly */
+  }
 }
 
 .option-square:hover {
   transform: translateY(-4px);
-}
-
-.option-icon {
-  font-size: 30px;
-  margin-top: 15px;
-  color: var(--ion-top-icons-color);
 }
 
 .option-text {
