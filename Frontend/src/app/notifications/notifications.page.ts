@@ -14,6 +14,7 @@ export class NotificationsPage implements OnInit {
   incompletedTasks: any[] = []; // Array to store Incompleted tasks
   userId: number | null = null; // To store user ID
   username: string = ''; // To store username
+  currentTime: Date = new Date(); // Store the current time
 
   isLoading: boolean = true; // Add loading state
 
@@ -40,12 +41,36 @@ export class NotificationsPage implements OnInit {
     this.loadCompletedTasks(); // Load completed tasks
     this.loadCancelledTasks(); // Load cancelled tasks
     this.loadIncompletedTasks(); // Load Incompleted tasks
+    this.updateCurrentTime(); // Start updating time when component loads
 
     // Set a timeout to hide the loader after 3 seconds
     setTimeout(() => {
       this.isLoading = false; // Hide loader after 3 seconds
     }, 1000);
   }
+
+  // Function to update current time every second
+  updateCurrentTime() {
+    setInterval(() => {
+      this.currentTime = new Date(); // Update the current time
+  
+      // Update the timeLeft for each task
+      this.tasksWithReminders = this.tasksWithReminders.map((task) => {
+        const currentTimeMs = new Date().getTime();
+        const dueTimeMs = new Date(task.dueTime).getTime();
+        const remainingMinutesToDue = Math.max(
+          0,
+          Math.floor((dueTimeMs - currentTimeMs) / (1000 * 60))
+        );
+  
+        return {
+          ...task,
+          timeLeft: this.calculateTimeLeft(remainingMinutesToDue), // Recalculate time left
+        };
+      });
+    }, 1000); // Update every second
+  }
+  
 
   // Fetch user ID and username from localStorage
   loadUserData() {

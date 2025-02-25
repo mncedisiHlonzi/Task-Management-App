@@ -62,7 +62,7 @@ ion-content {
   position: absolute;
   top: -2px;
   right: 0;
-  background-color: var(--ion-color-danger);
+  background-color: var(--plug-card-bg);
   color: white;
   border-radius: 50%;
   width: 10px;
@@ -175,16 +175,18 @@ ion-row.tagline {
 }
 
 .notification-skeleton {
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  --background: rgba(188, 0, 255, 0.065);
+  --background-rgb: 188, 0, 255;
 }
 
 .notification-badge-skeleton {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  --background: rgba(188, 0, 255, 0.065);
-  --background-rgb: 188, 0, 255;
+  --background: var(--ion-bg-color);
 }
 
 .greeting-skeleton{

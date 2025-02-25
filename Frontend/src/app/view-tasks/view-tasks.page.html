@@ -87,7 +87,7 @@
                 <img src="../../assets/images/start.png" class="date-icon" />
                 Due Time
               </p>
-              {{ task.dueTime | date: 'shortTime' }} <!--Due date-->
+              {{ task.dueTime | date: 'HH:mm' }} <!--Due date-->
             </h4>
             <div class="line"></div>
             <h4 class="reminder-time">
@@ -96,7 +96,7 @@
                 Reminder
               </p>
               <span *ngIf="task.reminder; else noReminder">
-                {{ task.reminder | date: 'shortTime' }}
+                {{ task.reminder | date: 'HH:mm' }}
               </span>
               <ng-template #noReminder>N/A</ng-template>
             </h4>
@@ -148,9 +148,15 @@
             <ion-button class="alert" (click)="openReminderSheet(task)">
               <ion-icon slot="icon-only" name="alarm-outline"></ion-icon>
             </ion-button>
+
+            <!--Button to delete task
+
             <ion-button color="danger" (click)="deleteTask(task)">
               <ion-icon slot="icon-only" name="trash-sharp"></ion-icon>
             </ion-button>
+
+            Button to delete task -->
+            
           </div>
         </div>
       </ion-card-content>

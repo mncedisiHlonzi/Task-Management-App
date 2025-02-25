@@ -138,6 +138,8 @@ router.put('/:id/reminder', async (req, res) => {
   }
 });
 
+/* Endpoint to delete task
+
 // DELETE /api/tasks/:id - Delete a task
 router.delete('/:id', async (req, res) => {
   try {
@@ -156,5 +158,7 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: 'Failed to delete task.' });
   }
 });
+
+Endpoint to delete task */
 
 module.exports = router; 

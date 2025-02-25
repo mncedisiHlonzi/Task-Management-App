@@ -291,6 +291,8 @@ export class ViewTasksPage implements OnInit {
     );
   }
 
+  /*Delete task feature
+
   // Method to handle task deletion
   async deleteTask(task: any) {
     // Confirmation alert
@@ -331,6 +333,7 @@ export class ViewTasksPage implements OnInit {
 
     await alert.present();
   }
+  Delete task feature */
 
   // Toast message
   async presentToast(message: string) {

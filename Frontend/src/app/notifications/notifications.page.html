@@ -18,11 +18,11 @@
       </ion-back-button>
     </ion-buttons>
 
-    <ion-title>Notifications</ion-title>
+    <ion-title>Reports</ion-title>
 
     <ion-buttons slot="end">
       <ion-button class="search-icon">
-        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+        <ion-icon slot="icon-only" name="documents-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -103,7 +103,7 @@
               Hello {{ username }}, you've just created a 
               <strong>{{ task.priority }}</strong> priority task 
               <strong>{{ task.title }}</strong>. The task is due today at 
-              <strong>{{ task.dueTime | date: 'shortTime' }}</strong>, 
+              <strong>{{ task.dueTime | date: 'HH:mm' }}</strong>, 
               all the best with your task.
             </p>
             <p><span>{{ task.createdAt | dateAgo }} •</span></p>
@@ -132,7 +132,7 @@
                 Congratulations {{ username }}, you've just completed your task 
                 <strong>{{ task.title }}</strong>, 
                 <strong>{{ task.formattedTimeToDue }}</strong> away from its due time 
-                today at <strong>{{ task.dueTime | date: 'shortTime' }}</strong>.
+                today at <strong>{{ task.dueTime | date: 'HH:mm' }}</strong>.
               </p>
         
               <div *ngIf="!task.taskExperience">
@@ -174,7 +174,7 @@
               <h3>{{ task.title }}</h3>
               <p>
                 Sorry {{ username }}, your task <strong>{{ task.title }}</strong> reached the due time 
-                <strong>{{ task.dueTime | date: 'shortTime' }}</strong>. Unfortunately you did not complete the task.
+                <strong>{{ task.dueTime | date: 'HH:mm' }}</strong>. Unfortunately you did not complete the task.
               </p>
     
               <div> <!--New feature, I'll implement it later-->
@@ -213,7 +213,7 @@
               <p>
                 {{ username }}, you've just cancelled your task <strong>{{ task.title }}</strong>, 
                 <strong>{{ task.formattedTimeToDue }}</strong> away from its due time 
-                today at <strong>{{ task.dueTime | date: 'shortTime' }}</strong>.
+                today at <strong>{{ task.dueTime | date: 'HH:mm' }}</strong>.
               </p>
             
               <div *ngIf="!task.cancelreason">
@@ -255,11 +255,11 @@
               <h4>Reminder</h4>
               <h3>{{ task.title }}</h3>
               <p>
-                Sure {{ username }}, it's now <strong>{{ task.reminder | date: 'shortTime' }}</strong> your reminder time.
+                Sure {{ username }}, it's now <strong>{{ currentTime | date: 'HH:mm' }}</strong> please don't forget to complete your task.
               </p>
               <p> 
                 You're now left with <strong>{{ task.timeLeft }} </strong> <span class="live"></span> to complete your task <strong>{{ task.title }}</strong>, due today at 
-                <strong>{{ task.dueTime | date: 'shortTime' }}</strong>. Keep working and complete your task on time.
+                <strong>{{ task.dueTime | date: 'HH:mm' }}</strong>. Keep working and complete your task on time.
               </p>
               <p><span>{{ task.reminder | dateAgo }} •</span></p>
             </ion-label>

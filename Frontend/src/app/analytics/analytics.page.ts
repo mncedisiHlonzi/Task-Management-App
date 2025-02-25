@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../services/tasks.service';
-import { Chart, ChartType, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend, DoughnutController, ArcElement, PieController, BarController, LineController } from 'chart.js'; // Import necessary elements for different chart types
+import { Chart, ChartType, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend, DoughnutController, ArcElement, PieController, BarController, LineController } from 'chart.js';
 
 // Register necessary components
 Chart.register(
@@ -79,7 +79,7 @@ export class AnalyticsPage implements OnInit {
       }
     }, 1100); // Small delay to ensure the DOM updates first
   }
-  
+
   // Fetch user from local storage
   getUserFromLocalStorage() {
     const user = localStorage.getItem('user');
@@ -89,7 +89,6 @@ export class AnalyticsPage implements OnInit {
     }
   }
 
-  //
   fetchTaskOverview() {
     this.taskService.getTaskOverview(this.userId!).subscribe(
       (data) => {
@@ -105,7 +104,6 @@ export class AnalyticsPage implements OnInit {
     );
   }
 
-  //
   fetchTaskPriority() {
     this.taskService.getTaskPriority(this.userId!).subscribe(
       (data) => {
@@ -120,7 +118,6 @@ export class AnalyticsPage implements OnInit {
     );
   }
 
-  //
   fetchTaskStats() {
     this.taskService.getTaskStats(this.userId!).subscribe(
       (data) => {
@@ -139,7 +136,6 @@ export class AnalyticsPage implements OnInit {
     );
   }
 
-  //
   fetchTaskPriorityStats() {
     this.taskService.getTaskPriorityStats(this.userId!).subscribe(
       (data) => {
@@ -153,7 +149,6 @@ export class AnalyticsPage implements OnInit {
     );
   }
 
-  //
   get mostPrioritized(): string {
     if (this.highPriorityTasks >= this.mediumPriorityTasks && this.highPriorityTasks >= this.LowPriorityTasks) {
       return 'High';
@@ -163,35 +158,100 @@ export class AnalyticsPage implements OnInit {
       return 'Low';
     }
   }
-  
+
   // Create the chart using the task stats
   createChart() {
     setTimeout(() => {
       if (this.chart) {
         this.chart.destroy(); // Destroy previous instance
       }
-
+  
       const ctx = document.getElementById('taskChart') as HTMLCanvasElement;
       if (!ctx) {
         console.error('Canvas element not found!');
         return;
       }
-
+  
+      const isDarkMode = document.body.classList.contains('dark');
+      const gridColor = isDarkMode ? '#444' : '#e0e0e0';
+      const textColor = isDarkMode ? '#fff' : '#666';
+  
+      // Get the 2D rendering context
+      const chartCtx = ctx.getContext('2d');
+      if (!chartCtx) {
+        console.error('Could not get 2D context');
+        return;
+      }
+  
+      // Gradient for all chart types
+      const gradient = chartCtx.createLinearGradient(0, 0, 0, 400);
+      gradient.addColorStop(0, 'rgb(47, 6, 59)'); // Dark purple
+      gradient.addColorStop(1, 'rgba(47, 6, 59, 0)'); // Transparent
+  
+      // Apply gradient to pie/doughnut charts
+      const getGradient = (ctx: CanvasRenderingContext2D) => {
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgb(47, 6, 59)'); // Dark purple
+        gradient.addColorStop(1, 'rgba(47, 6, 59, 0)'); // Transparent
+        return gradient;
+      };
+  
       this.chart = new Chart(ctx, {
         type: this.chartType,
         data: {
           labels: ['Pending', 'Completed', 'Cancelled', 'Incomplete'],
           datasets: [{
+            label: 'Task Status',
             data: [this.pendingRate, this.completionRate, this.cancellationRate, this.incompleteRate],
-            backgroundColor: ['#92949c', '#12e44a', '#c5000f', '#ffc409'],
-            hoverBackgroundColor: ['#92949c', '#218838', '#c82333', '#e0a800']
+            backgroundColor: this.chartType === 'pie' || this.chartType === 'doughnut' 
+              ? [getGradient(chartCtx), getGradient(chartCtx), getGradient(chartCtx), getGradient(chartCtx)] // Apply gradient to each segment
+              : gradient, // Use gradient for bar/line charts
+            borderColor: this.chartType === 'line' ? 'rgb(47, 6, 59)' : this.chartType === 'bar' ? '#fff' : '#fff',
+            borderWidth: this.chartType === 'pie' || this.chartType === 'doughnut' || this.chartType === 'bar' ? 2 : 3,
+            pointBackgroundColor: this.chartType === 'line' ? 'rgb(47, 6, 59)' : 'rgb(47, 6, 59)',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            fill: this.chartType === 'line', // Fill area under the line
+            tension: this.chartType === 'line' ? 0.4 : 0, // Smooth curves for line chart
+            borderRadius: this.chartType === 'bar' ? 7 : this.chartType === 'pie' || this.chartType === 'doughnut' ? 10 : 0, // Rounded corners for bar/pie/doughnut
+            spacing: this.chartType === 'pie' || this.chartType === 'doughnut' ? 5 : 0, // Spacing between segments
           }]
         },
         options: {
           responsive: true,
           plugins: {
-            legend: { position: 'top' },
-            tooltip: { enabled: true }
+            legend: {
+              display: false, // Hide legend for a cleaner look
+            },
+            tooltip: {
+              enabled: true,
+              backgroundColor: isDarkMode ? '#333' : '#fff',
+              titleColor: isDarkMode ? '#fff' : '#333',
+              bodyColor: isDarkMode ? '#fff' : '#333',
+              borderColor: this.chartType === 'line' ? 'rgb(47, 6, 59)' : this.chartType === 'bar' ? 'rgb(47, 6, 59)' : gradient,
+              borderWidth: 1,
+              cornerRadius: 5,
+            }
+          },
+          scales: this.chartType === 'pie' || this.chartType === 'doughnut' ? {} : {
+            x: {
+              grid: {
+                display: false, // Hide x-axis grid lines
+              },
+              ticks: {
+                color: textColor, // X-axis label color
+              }
+            },
+            y: {
+              grid: {
+                display: false, // Hide y-axis grid lines
+              },
+              ticks: {
+                color: textColor, // Y-axis label color
+              }
+            }
           }
         }
       });
@@ -202,5 +262,5 @@ export class AnalyticsPage implements OnInit {
   changeChartType(newChartType: ChartType) {
     this.chartType = newChartType;
     this.createChart(); // Re-create the chart with the new type
-  }  
+  }
 }
