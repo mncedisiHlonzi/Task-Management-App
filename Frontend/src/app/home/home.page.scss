@@ -13,6 +13,16 @@ ion-content {
   --color: var(--ion-tx-color);
 }
 
+/* Custom Back Button Styles */
+.custom-cancel {
+  --border-radius: 10px !important;
+  --background: var(--plug-cards-bg);
+  --color: var(--ion-top-icons-color);
+  margin-right: 5px;
+  width: 45px;
+  height: 45px;
+}
+
 /************************* Top-bar CSS ************************/
 .header-toolbar {
   --background: transparent;
@@ -136,6 +146,7 @@ ion-row.tagline {
 
 /* Task Options Icons Animation */
 .option-square {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -149,13 +160,26 @@ ion-row.tagline {
   overflow: hidden; /* Ensure the animation doesn't overflow */
 }
 
+.option-square::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../../assets/images/task.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.8;
+  z-index: 0;
+}
+
 .option-icon {
   font-size: 40px;
-  margin-top: 20px;
+  margin-top: 15px;
   color: var(--ion-top-icons-color);
-  -webkit-text-stroke: 1px var(--ion-top-icons-color); /* Add outline */
+  -webkit-text-stroke: 9px var(--ion-top-icons-color); /* Add outline */
   animation: bounceScaleRotate 15s infinite ease-in-out; /* Slower animation (3s) */
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.137)); /* Sharper shadow */
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.726)); /* Sharper shadow */
 }
 
 /* Add delay to each icon */
@@ -196,6 +220,115 @@ ion-col:nth-child(3) .option-icon {
   color: var(--ion-tx-color);
   text-align: center;
 }
+
+.custom-fab {
+  border: 2px solid var(--plug-card-bg);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.custom-fab img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+ion-item{
+  --background: var(--ion-bg-color);
+}
+
+ion-list{
+  background: var(--ion-bg-color);
+  padding-top: 25px;
+}
+
+.birthday-wish{
+  width: 93%;
+  border: 5px solid var(--ion-bg-color);
+  --background: var(--plug-cards-bg);
+  --color: var(--ion-tx-color);
+  font-size: 0.8rem;
+  border-radius: 15px;
+  margin: auto;
+}
+
+.location-input{
+  width: 93%;
+  margin: auto;
+  align-items: center;
+  border: 5px solid var(--ion-bg-color);
+  --background: var(--plug-cards-bg);
+  --color: var(--ion-tx-color);
+  font-size: 0.8rem;
+  border-radius: 15px;
+}
+
+.location-input ion-icon{
+  color: var(--plug-card-bg);
+}
+
+.location-list{
+  width: 93%;
+  margin: auto;
+  align-items: center;
+  --color: var(--ion-tx-color);
+  font-size: 0.8rem;
+  border-radius: 15px;
+}
+
+.Repeat-birthday{
+  border: 5px solid var(--ion-bg-color);
+  --color: var(--ion-tx-color);
+  font-size: 0.8rem;
+}
+
+.Repeat-birthday ion-label{
+  font-weight: 500;
+}
+
+.Birthday-button{
+  text-transform: none;
+  --border-radius: 7px;
+  width: 93%;
+  margin: auto;
+}
+
+/* Style the datetime picker container */
+ion-datetime {
+  position: relative;
+  --background: var(--plug-card-bg);
+  --border-radius: 12px;
+  --color: #333;
+  padding: 12px;
+  border-radius: 12px; 
+}
+
+ion-datetime::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../../assets/images/card.png') no-repeat center center;
+  background-size: cover;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* Style the modal popover of ion-datetime */
+ion-datetime::part(calendar) {
+  border-radius: 12px;
+}
+
+/* Style the buttons inside datetime */
+ion-datetime::part(done-button),
+ion-datetime::part(cancel-button) {
+  color: #007bff; /* Button color */
+  font-weight: bold;
+}
+
+
 
 //Skeleton style
 

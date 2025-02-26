@@ -68,4 +68,80 @@
       </ion-row>
     </ion-grid>
   </ion-card>
+
+
+
+
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button class="custom-fab" (click)="openModal()">
+      <img src="../../assets/images/birthday/Happy-birthday-3.jpg" alt="Custom Image" style="width: 100%; height: 100%; border-radius: 50%;">
+    </ion-fab-button>
+  </ion-fab>
+  
+  <!-- Birthday Modal -->
+  <ion-modal #modal>
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title>Add Your Birthday</ion-title>
+          <ion-buttons slot="end">
+            <ion-button class="custom-cancel" (click)="closeModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+  
+      <ion-content class="ion-padding">
+        <ion-item lines="none">
+          <ion-datetime [(ngModel)]="birthdayDate" presentation="date"></ion-datetime>
+        </ion-item>
+
+        <ion-list lines="none">
+          <ion-item class="birthday-wish">
+            <ion-label position="stacked">Write a Birthday Wish</ion-label>
+            <ion-textarea [(ngModel)]="birthdayWish" [autoGrow]="true" placeholder="🎂 Your special wish..."></ion-textarea>
+          </ion-item>
+
+          <!-- Birthday Location Input with Autocomplete -->
+          <ion-item class="location-input">
+            <ion-icon name="location-outline" slot="start"></ion-icon>
+            <ion-input
+              [(ngModel)]="birthdayLocation"
+              type="text"
+              placeholder="Enter birthday location"
+              (ionInput)="searchLocation($event)"
+            ></ion-input>
+          </ion-item>
+
+          <!-- Display Location Suggestions -->
+          <ion-list *ngIf="locationSuggestions.length > 0">
+            <ion-item
+              *ngFor="let location of locationSuggestions"
+              (click)="selectLocation(location)"
+              class="location-list"
+            >
+              <ion-label>
+                <h3>{{ location.display_name }}</h3>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+
+          <!-- Repeat Birthday Reminder Toggle -->
+          <ion-item lines="none" class="Repeat-birthday">
+            <ion-label>Repeat Every Year</ion-label>
+            <ion-toggle slot="end" [(ngModel)]="repeatYearly"></ion-toggle>
+          </ion-item>
+        </ion-list>
+  
+        <div class="btn-container">
+          <ion-button class="Birthday-button" expand="block" color="primary" (click)="saveBirthday()">Save Birthday ➜</ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  
+  
+
 </ion-content>

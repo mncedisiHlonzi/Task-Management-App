@@ -10,6 +10,7 @@ const Main = require('./models/main'); // Import the Main model
 const Task  = require('./models/task');
 const User = require('./models/user'); // Adjust the path as needed
 const admin = require('./firebase'); // Import Firebase Admin SDK
+const birthdayRoutes = require('./routes/birthdayRoutes');
 
 const app = express();
 const port = 3000; // Hardcoded PORT value
