@@ -43,13 +43,23 @@
         <ion-label position="stacked">Password</ion-label>
         <ion-input 
           [(ngModel)]="password" 
-          type="password" 
+          [type]="showPassword ? 'text' : 'password'" 
         >
         </ion-input>
+        <ion-button 
+          fill="clear" 
+          slot="end" 
+          (click)="togglePasswordVisibility()"
+        >
+          <ion-icon 
+            [name]="showPassword ? 'eye-off' : 'eye'" 
+            class="password-eye-icon"
+          ></ion-icon>
+        </ion-button>
       </ion-item>
 
       <!-- Remember me -->
-      <ion-checkbox>Remember me</ion-checkbox>
+      <ion-checkbox [(ngModel)]="rememberMe">Remember me</ion-checkbox>
 
       <div class="buttons">
         <h4>Sign in</h4>

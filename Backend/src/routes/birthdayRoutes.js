@@ -6,7 +6,7 @@ const { Op } = require('sequelize');
 // POST /api/birthdays - Add a new birthday
 router.post('/', async (req, res) => {
     try {
-      const { date, wish, location, repeatYearly, userId } = req.body;
+      const { date, wish, location, repeatYearly, userId, fcm_token } = req.body;
   
       if (!date || !userId) {
         console.error('Date and User ID are required.');
@@ -20,6 +20,7 @@ router.post('/', async (req, res) => {
         location,
         repeatYearly,
         userId,
+        fcm_token, // Store the FCM token
       });
   
       console.log('Birthday added successfully:', newBirthday); // Log success
@@ -47,13 +48,13 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-// PUT /api/birthdays/:id - Update a birthday
-router.put('/:id', async (req, res) => {
+// PUT /api/birthdays/:userId - Update a birthday
+router.put('/:userId', async (req, res) => {
   try {
-    const { id } = req.params;
+    const { userId } = req.params;
     const { date, wish, location, repeatYearly } = req.body;
 
-    const birthday = await Birthday.findByPk(id);
+    const birthday = await Birthday.findOne({ where: { userId } });
 
     if (!birthday) {
       return res.status(404).json({ error: 'Birthday not found.' });

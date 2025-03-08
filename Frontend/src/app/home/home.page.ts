@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 export class HomePage implements OnInit {
 
   @ViewChild('modal', { static: true }) modal!: IonModal;
+  @ViewChild('viewBirthdayModal') viewBirthdayModal!: IonModal;
 
   isLoading: boolean = true; // Controls skeleton loading
   greeting: string = '';
@@ -26,6 +27,12 @@ export class HomePage implements OnInit {
   birthdayLocation: string = '';
   repeatYearly: boolean = false;
   userId: number | null = null;
+  daysLeft: number | null = null;
+  hasBirthday: boolean = false;
+  timeLeft: string = '';
+  isBirthdayToday: boolean = false;
+
+  fcmToken: string | null = null; // Add this to store the FCM token
 
   locationSuggestions: any[] = []; // Store location suggestions
   private locationIqApiKey = 'pk.1470faed055efed88ce314062d9bfb9f'; // Replace with your API key
@@ -43,11 +50,17 @@ export class HomePage implements OnInit {
   async ngOnInit() {
     this.setGreeting();
     this.loadUserData();
+    this.fetchBirthday(); // Fetch and recalculate days left
+
+    // Update days left every 24 hours
+    setInterval(() => {
+      this.fetchBirthday(); // Recalculate days left
+    }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
 
     // Simulate loading delay of 3 seconds
     setTimeout(() => {
       this.isLoading = false;
-    }, 3000);
+    }, 7000);
   }
 
   setGreeting() {
@@ -73,6 +86,7 @@ export class HomePage implements OnInit {
     }
     if (userData && userData.id) {
       this.userId = userData.id;
+      this.fcmToken = userData.fcm_token; // Fetch the FCM token from user data
     }
   }
 
@@ -136,20 +150,27 @@ export class HomePage implements OnInit {
       this.presentToast('Date and User ID are required.', 'warning');
       return;
     }
-
+  
     const payload = {
       date: this.birthdayDate,
       wish: this.birthdayWish,
       location: this.birthdayLocation,
       repeatYearly: this.repeatYearly,
       userId: this.userId,
+      fcm_token: this.fcmToken, // Include the FCM token from user data
     };
-
+  
     this.http.post('http://172.168.161.212:3000/api/birthdays', payload).subscribe(
       async (response: any) => {
         console.log('Birthday saved successfully!', response);
         await this.presentToast('Birthday added successfully!', 'success');
+  
+        // Refetch the birthday data to update the card
+        this.fetchBirthday();
+        this.hasBirthday = true;
+  
         this.clearInputs(); // Clear the form inputs
+        this.closeModal();
       },
       async (error) => {
         console.error('Error saving birthday:', error);
@@ -176,5 +197,138 @@ export class HomePage implements OnInit {
     });
     await toast.present();
   }
+
+
+  //fetch Birthday
+  fetchBirthday() {
+    if (!this.userId) return;
+  
+    const apiUrl = `http://172.168.161.212:3000/api/birthdays/${this.userId}`;
+  
+    this.http.get(apiUrl).subscribe(
+      (response: any) => {
+        if (response.length > 0) {
+          const birthday = response[0]; // Assuming the user has only one birthday entry
+          this.birthdayDate = birthday.date;
+          this.birthdayWish = birthday.wish;
+          this.birthdayLocation = birthday.location;
+          this.repeatYearly = birthday.repeatYearly;
+          this.timeLeft = this.calculateDaysLeft(birthday.date); // Store the remaining time
+          this.hasBirthday = true; // User has a birthday
+  
+          // Check if today is the birthday
+          this.isBirthdayToday = this.isTodayBirthday(birthday.date);
+        } else {
+          this.hasBirthday = false; // User does not have a birthday
+          this.isBirthdayToday = false; // Reset the flag
+        }
+      },
+      (error) => {
+        console.error('Error fetching birthday:', error);
+        this.hasBirthday = false; // Assume no birthday on error
+        this.isBirthdayToday = false; // Reset the flag
+      }
+    );
+  }
+  
+  // Check if today is the birthday
+  isTodayBirthday(birthdayDate: string): boolean {
+    const today = new Date();
+    const birthday = new Date(birthdayDate);
+  
+    // Compare the month and day
+    return (
+      today.getMonth() === birthday.getMonth() &&
+      today.getDate() === birthday.getDate()
+    );
+  }
+
+  getScrollDuration(text: string): number {
+    const baseDuration = 10; // Base duration for 20 characters
+    const duration = (text.length / 20) * baseDuration;
+    return Math.max(duration, 10); // Ensure a minimum duration of 10s
+  }
+
+  // Calculate days left until the birthday
+  calculateDaysLeft(birthdayDate: string): string {
+    const today = new Date();
+    const birthday = new Date(birthdayDate);
+  
+    // Set the year to the current year for comparison
+    birthday.setFullYear(today.getFullYear());
+  
+    // If the birthday has already passed this year, set it to next year
+    if (birthday < today) {
+      birthday.setFullYear(today.getFullYear() + 1);
+    }
+  
+    // Calculate the difference in milliseconds
+    const timeDifference = birthday.getTime() - today.getTime();
+  
+    // Convert milliseconds to days, hours, and minutes
+    const daysLeft = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    const hoursLeft = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutesLeft = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+  
+    if (daysLeft > 1) {
+      return `${daysLeft} days left`;
+    } else if (daysLeft === 1) {
+      return '1 day left';
+    } else if (hoursLeft > 0) {
+      return 'Hours left';
+    } else if (minutesLeft > 0) {
+      return 'Minutes left';
+    } else {
+      return 'Today is the day!';
+    }
+  }
+
+
+
+
+
+
+
+  // Open the View/Edit Birthday Modal
+  openViewBirthdayModal() {
+    this.viewBirthdayModal.present();
+  }
+
+  // Close the View/Edit Birthday Modal
+  closeViewBirthdayModal() {
+    this.viewBirthdayModal.dismiss();
+  }
+
+  // Update the Birthday
+  async updateBirthday() {
+    if (!this.birthdayDate || !this.userId) {
+      this.presentToast('Date and User ID are required.', 'warning');
+      return;
+    }
+
+    const payload = {
+      date: this.birthdayDate,
+      wish: this.birthdayWish,
+      location: this.birthdayLocation,
+      repeatYearly: this.repeatYearly,
+      userId: this.userId,
+    };
+
+    const apiUrl = `http://172.168.161.212:3000/api/birthdays/${this.userId}`;
+
+    this.http.put(apiUrl, payload).subscribe(
+      async (response: any) => {
+        console.log('Birthday updated successfully!', response);
+        await this.presentToast('Birthday updated successfully!', 'success');
+        this.fetchBirthday(); // Refetch the birthday data
+        this.closeViewBirthdayModal(); // Close the modal
+      },
+      async (error) => {
+        console.error('Error updating birthday:', error);
+        await this.presentToast('Failed to update birthday. Please try again.', 'danger');
+      }
+    );
+  }
+
 
 }

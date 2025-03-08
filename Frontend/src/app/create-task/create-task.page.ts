@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-task',
@@ -21,7 +22,7 @@ export class CreateTaskPage implements OnInit {
   fcmToken: string | null = null; // Add this to store the FCM token
   private apiUrl = 'http://172.168.161.212:3000/api/tasks';
 
-  constructor(private http: HttpClient, private toastController: ToastController) {}
+  constructor(private http: HttpClient, private toastController: ToastController, private router: Router) {}
 
   ngOnInit() {
     this.loadUserData();
@@ -58,6 +59,7 @@ export class CreateTaskPage implements OnInit {
         await toast.present();
 
         this.resetForm();
+        this.navigateToViewTasks();
       } catch (error) {
         console.error('Error creating task:', error);
 
@@ -103,4 +105,9 @@ export class CreateTaskPage implements OnInit {
       priority: 'low',
     };
   }
+
+  navigateToViewTasks() {
+    this.router.navigate(['/view-tasks']);
+  }
+
 }

@@ -37,7 +37,21 @@
       <!-- Password -->
       <ion-item lines="none">
         <ion-label position="stacked">Password</ion-label>
-        <ion-input [(ngModel)]="password" type="password"></ion-input>
+        <ion-input 
+          [(ngModel)]="password" 
+          [type]="showPassword ? 'text' : 'password'" 
+        >
+        </ion-input>
+        <ion-button 
+          fill="clear" 
+          slot="end" 
+          (click)="togglePasswordVisibility()"
+        >
+          <ion-icon 
+            [name]="showPassword ? 'eye-off' : 'eye'" 
+            class="password-eye-icon"
+          ></ion-icon>
+        </ion-button>
       </ion-item>
 
       <div class="buttons">

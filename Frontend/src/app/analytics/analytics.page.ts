@@ -185,14 +185,14 @@ export class AnalyticsPage implements OnInit {
   
       // Gradient for all chart types
       const gradient = chartCtx.createLinearGradient(0, 0, 0, 400);
-      gradient.addColorStop(0, 'rgb(47, 6, 59)'); // Dark purple
-      gradient.addColorStop(1, 'rgba(47, 6, 59, 0)'); // Transparent
+      gradient.addColorStop(0, 'rgb(161, 63, 231)'); // Dark purple
+      gradient.addColorStop(1, 'rgba(161, 63, 231, 0)'); // Transparent
   
       // Apply gradient to pie/doughnut charts
       const getGradient = (ctx: CanvasRenderingContext2D) => {
         const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgb(47, 6, 59)'); // Dark purple
-        gradient.addColorStop(1, 'rgba(47, 6, 59, 0)'); // Transparent
+        gradient.addColorStop(0, 'rgb(161, 63, 231)'); // Dark purple
+        gradient.addColorStop(1, 'rgba(161, 63, 231, 0)'); // Transparent
         return gradient;
       };
   
@@ -206,9 +206,9 @@ export class AnalyticsPage implements OnInit {
             backgroundColor: this.chartType === 'pie' || this.chartType === 'doughnut' 
               ? [getGradient(chartCtx), getGradient(chartCtx), getGradient(chartCtx), getGradient(chartCtx)] // Apply gradient to each segment
               : gradient, // Use gradient for bar/line charts
-            borderColor: this.chartType === 'line' ? 'rgb(47, 6, 59)' : this.chartType === 'bar' ? '#fff' : '#fff',
+            borderColor: this.chartType === 'line' ? 'rgb(161, 63, 231)' : this.chartType === 'bar' ? '#fff' : '#fff',
             borderWidth: this.chartType === 'pie' || this.chartType === 'doughnut' || this.chartType === 'bar' ? 2 : 3,
-            pointBackgroundColor: this.chartType === 'line' ? 'rgb(47, 6, 59)' : 'rgb(47, 6, 59)',
+            pointBackgroundColor: this.chartType === 'line' ? 'rgb(161, 63, 231)' : 'rgb(161, 63, 231)',
             pointBorderColor: '#fff',
             pointBorderWidth: 2,
             pointRadius: 5,
@@ -230,7 +230,7 @@ export class AnalyticsPage implements OnInit {
               backgroundColor: isDarkMode ? '#333' : '#fff',
               titleColor: isDarkMode ? '#fff' : '#333',
               bodyColor: isDarkMode ? '#fff' : '#333',
-              borderColor: this.chartType === 'line' ? 'rgb(47, 6, 59)' : this.chartType === 'bar' ? 'rgb(47, 6, 59)' : gradient,
+              borderColor: this.chartType === 'line' ? 'rgb(161, 63, 231)' : this.chartType === 'bar' ? 'rgb(161, 63, 231)' : gradient,
               borderWidth: 1,
               cornerRadius: 5,
             }

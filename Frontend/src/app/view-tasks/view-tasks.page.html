@@ -30,7 +30,7 @@
 
   <!-- Skeleton Loader -->
   <div *ngIf="loading">
-    <ion-card *ngFor="let _ of [1,2,3,4,5]" class="modern-task" style="box-shadow: none;">
+    <ion-card *ngFor="let task of tasks" class="modern-task" style="box-shadow: none;">
       <ion-card-content>
         <div class="title-priority">
           <ion-skeleton-text animated style="width: 60%; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>

@@ -73,13 +73,158 @@
 
 
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <!-- Birthday Card Skeleton Loader -->
+  <div *ngIf="isLoading">
+    <ion-card class="birthday-card" *ngIf="hasBirthday && !isBirthdayToday">
+      <ion-card-header>
+        <ion-card-title><ion-skeleton-text animated style="width: 90px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text></ion-card-title>
+        <ion-card-subtitle><ion-skeleton-text animated style="width: 40px; height: 8px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text></ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="location-DaysLeft">
+          <h4><ion-skeleton-text animated style="width: 150px; height: 8px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text></h4>
+          <h4><ion-skeleton-text animated style="width: 100px; height: 8px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text></h4>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <!-- Birthday Card -->
+  <div *ngIf="!isLoading">
+    <!-- Regular Birthday Card -->
+    <ion-card class="birthday-card" *ngIf="hasBirthday && !isBirthdayToday" (click)="openViewBirthdayModal()">
+      <ion-card-header>
+        <ion-card-title>My Birthday</ion-card-title>
+        <ion-card-subtitle>{{ birthdayDate | date: 'd MMMM' }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="location-DaysLeft">
+          <h4>📍 {{ birthdayLocation.length > 20 ? (birthdayLocation | slice:0:20) + ' ...' : birthdayLocation }}</h4>
+          <h4>📆 {{ timeLeft }}</h4> <!-- Use the timeLeft property -->
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+  <!--Special birthday card skeleton-->
+  <div *ngIf="isLoading">
+    <ion-card class="special-birthday-card" *ngIf="isBirthdayToday">
+      <!--<ion-card-header>
+        <ion-card-title><ion-skeleton-text animated style="width: 90px; height: 20px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text></ion-card-title>
+        <ion-card-subtitle><ion-skeleton-text animated style="width: 40px; height: 8px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text></ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="birthday-message" style="align-items: center; text-align: center;">
+          <p>
+            <ion-skeleton-text animated style="width: 100%; height: 8px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 100%; height: 8px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </p>
+          <p>
+            <ion-skeleton-text animated style="width: 50%; height: 8px; border-radius: 10px;" class="skeleton-style"></ion-skeleton-text>
+          </p>
+        </div>
+      </ion-card-content>-->
+    </ion-card>
+  </div>
+  <!-- Special Birthday Card (Visible Only on Birthday) -->
+  <div *ngIf="!isLoading">
+    <ion-card class="special-birthday-card" *ngIf="isBirthdayToday">
+      <ion-card-header>
+        <ion-card-title>🎉 Happy Birthday!🎉</ion-card-title>
+        <ion-card-subtitle>{{ birthdayDate | date: 'd MMMM' }} | Your special day {{ username }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="birthday-message">
+          <p>❝ {{ birthdayWish }} ❞</p>
+          <p [ngClass]="{'scrolling-location': birthdayLocation.length > 20}">
+            <span [style.animation-duration]="getScrollDuration(birthdayLocation) + 's'">📍 {{ birthdayLocation }}</span>
+            <span [style.animation-duration]="getScrollDuration(birthdayLocation) + 's'">📍 {{ birthdayLocation }}</span>
+          </p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- View/Edit Birthday Modal -->
+  <ion-modal #viewBirthdayModal>
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title>My Birthday</ion-title>
+          <ion-buttons slot="end">
+            <ion-button class="custom-cancel" (click)="closeViewBirthdayModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <!-- Display Birthday Details -->
+        <ion-item lines="none" style="margin-bottom: 5px;">
+          <ion-datetime [(ngModel)]="birthdayDate" presentation="date"></ion-datetime>
+        </ion-item>
+
+        <ion-item lines="none" class="viewEdit-birthdayWish">
+          <ion-label position="stacked">🫧 My Birthday wish</ion-label>
+          <ion-textarea 
+            [(ngModel)]="birthdayWish"
+            [autoGrow]="true"
+            placeholder="🎂 Your special wish..."
+          ></ion-textarea>
+        </ion-item>
+
+        <ion-item lines="none" class="viewEdit-birthdayLocation">
+          <ion-label position="stacked">📍 My Birthday location</ion-label>
+          <ion-textarea
+            [(ngModel)]="birthdayLocation"
+            [autoGrow]="true"
+            type="text"
+            placeholder="Enter birthday location"
+            (ionInput)="searchLocation($event)"
+          ></ion-textarea>
+        </ion-item>
+
+        <!-- Display Location Suggestions -->
+        <ion-list lines="none" *ngIf="locationSuggestions.length > 0">
+          <ion-item
+            *ngFor="let location of locationSuggestions"
+            (click)="selectLocation(location)"
+            class="location-list"
+          >
+            <ion-label>
+              <h3>{{ location.display_name }}</h3>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <ion-item lines="none" class="Repeat-birthday">
+          <ion-label>Repeat Every Year</ion-label>
+          <ion-toggle slot="end" [(ngModel)]="repeatYearly"></ion-toggle>
+        </ion-item>
+
+        <!-- Save Changes Button -->
+        <div class="btn-container">
+          <ion-button class="Birthday-button" expand="block" color="primary" (click)="updateBirthday()">Save Changes ➜</ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+
+
+  <!--Button to open modal to add birthday-->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="!hasBirthday">
     <ion-fab-button class="custom-fab" (click)="openModal()">
       <img src="../../assets/images/birthday/Happy-birthday-3.jpg" alt="Custom Image" style="width: 100%; height: 100%; border-radius: 50%;">
     </ion-fab-button>
   </ion-fab>
   
-  <!-- Birthday Modal -->
+  <!-- Add Birthday Modal -->
   <ion-modal #modal>
     <ng-template>
       <ion-header class="ion-no-border">

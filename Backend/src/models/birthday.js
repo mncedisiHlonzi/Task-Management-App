@@ -35,6 +35,15 @@ const Birthday = sequelize.define(
         key: 'id', // Reference the primary key of the User model
       },
     },
+    fcm_token: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    wishsent: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false, // Default to false
+    },
   },
   {
     timestamps: true, // Add createdAt and updatedAt fields

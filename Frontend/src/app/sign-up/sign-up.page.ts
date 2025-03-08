@@ -12,6 +12,7 @@ import { StorageService } from '../services/fcm/storage.service'; // Import Stor
 export class SignUpPage {
   username: string = '';
   password: string = '';
+  showPassword: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -19,6 +20,11 @@ export class SignUpPage {
     private toastController: ToastController,
     private storage: StorageService // Inject StorageService
   ) {}
+
+  // Toggle password visibility
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   async signUp() {
     if (!this.username || !this.password) {
@@ -41,6 +47,7 @@ export class SignUpPage {
         // Reset input fields
         this.username = '';
         this.password = '';
+        this.navigateToSignIn();
       },
       async (error) => {
         console.error('Error during signup:', error);

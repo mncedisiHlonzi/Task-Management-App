@@ -9,6 +9,7 @@ const { Op } = require('sequelize');
 const Main = require('./models/main'); // Import the Main model
 const Task  = require('./models/task');
 const User = require('./models/user'); // Adjust the path as needed
+const Birthday = require('./models/birthday'); // Import the Birthday model
 const admin = require('./firebase'); // Import Firebase Admin SDK
 const birthdayRoutes = require('./routes/birthdayRoutes');
 
@@ -175,6 +176,72 @@ sequelize
         }
       } catch (error) {
         console.error('Error sending incomplete task notifications:', error);
+      }
+    });
+
+    // Schedule a job to run daily at midnight for Birthday Wish
+    cron.schedule('00 05 * * *', async () => {
+      try {
+        // Get today's date in the correct timezone
+        const today = new Intl.DateTimeFormat('en-CA').format(new Date()); // 'YYYY-MM-DD'
+
+        // Find birthdays that match today's date and have not had a wish sent
+        const birthdays = await Birthday.findAll({
+          where: {
+            date: {
+              [Op.eq]: today, // Match the date exactly
+            },
+            wishsent: false, // Only birthdays that haven't had a wish sent
+          },
+          include: [
+            {
+              model: User, // Include the User model
+              as: 'user', // Use the alias defined in the association
+              attributes: ['username'], // Fetch only the username
+            },
+          ],
+        });
+
+        // Send push notifications for each birthday
+        for (const birthday of birthdays) {
+          const { fcm_token, wish, userId, repeatYearly, user } = birthday;
+
+          if (fcm_token) {
+            const message = {
+              notification: {
+                title: 'Happy Birthday! 🎉',
+                body: `Happy birthday ${user.username}, Wishing you a fantastic day!`, // Use the stored wish or a default message
+              },
+              token: fcm_token, // Send to the user's FCM token
+            };
+
+            // Send the notification
+            await admin.messaging().send(message);
+            console.log(`Birthday notification sent to user ID ${userId} with FCM token ${fcm_token}`);
+
+            // Mark the wish as sent
+            birthday.wishsent = true;
+            await birthday.save();
+            console.log(`Birthday wish marked as sent for user ID ${userId}.`);
+
+            // If repeatYearly is true, reset wishSent for the next year
+            if (repeatYearly) {
+              // Calculate the next year's date
+              const nextYearDate = new Date(birthday.date);
+              nextYearDate.setFullYear(nextYearDate.getFullYear() + 1);
+
+              // Update the date and reset wishSent
+              birthday.date = nextYearDate.toISOString().split('T')[0];
+              birthday.wishsent = false;
+              await birthday.save();
+              console.log(`Birthday date updated for next year for user ID ${userId}.`);
+            }
+          } else {
+            console.log(`No FCM token found for user ID ${userId}. Skipping notification.`);
+          }
+        }
+      } catch (error) {
+        console.error('Error sending birthday notifications:', error);
       }
     });
 
