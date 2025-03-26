@@ -115,4 +115,4 @@ The **Task Management App** is a powerful and intuitive application designed to 
 - Optimized database queries for fast performance.
 
 ## License
--This project is open-source and available under the MIT License.
+- This project is open-source and available under the **MIT License**.
