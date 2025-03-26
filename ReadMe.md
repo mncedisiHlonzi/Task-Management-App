@@ -65,7 +65,7 @@ The **Task Management App** is a powerful and intuitive application designed to 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/task-management-app.git
+    git clone https://github.com/mncedisiHlonzi/task-management-app.git
     cd task-management-app/backend
    ```
 
