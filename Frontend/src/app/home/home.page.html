@@ -69,10 +69,6 @@
     </ion-grid>
   </ion-card>
 
-
-
-
-
   <!-- Birthday Card Skeleton Loader -->
   <div *ngIf="isLoading">
     <ion-card class="birthday-card" *ngIf="hasBirthday && !isBirthdayToday">
@@ -101,7 +97,7 @@
       <ion-card-content>
         <div class="location-DaysLeft">
           <h4>📍 {{ birthdayLocation.length > 20 ? (birthdayLocation | slice:0:20) + ' ...' : birthdayLocation }}</h4>
-          <h4>📆 {{ timeLeft }}</h4> <!-- Use the timeLeft property -->
+          <h4>📆 {{ timeLeft }}</h4>
         </div>
       </ion-card-content>
     </ion-card>
@@ -215,8 +211,6 @@
     </ng-template>
   </ion-modal>
 
-
-
   <!--Button to open modal to add birthday-->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="!hasBirthday">
     <ion-fab-button class="custom-fab" (click)="openModal()">
@@ -224,7 +218,7 @@
     </ion-fab-button>
   </ion-fab>
   
-  <!-- Add Birthday Modal -->
+  <!-- Birthday Modal -->
   <ion-modal #modal>
     <ng-template>
       <ion-header class="ion-no-border">
@@ -286,7 +280,5 @@
       </ion-content>
     </ng-template>
   </ion-modal>
-  
-  
 
 </ion-content>

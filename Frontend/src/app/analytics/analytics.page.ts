@@ -25,23 +25,21 @@ Chart.register(
   styleUrls: ['./analytics.page.scss'],
 })
 export class AnalyticsPage implements OnInit {
+
   userId: number | null = null;
   totalTasks = 0;
   pendingTasks = 0;
   completedTasks = 0;
   incompleteTasks = 0;
   cancelledTasks = 0;
-
   pendingRate = 0;
   completionRate = 0;
   cancellationRate = 0;
-  incompleteRate = 0; // New rate
+  incompleteRate = 0;
   averageTimeToComplete = 0;
-
   LowPriorityTasks = 0;
   mediumPriorityTasks = 0;
   highPriorityTasks = 0;
-
   lowRate = 0;
   mediumRate = 0;
   highRate = 0;
@@ -49,7 +47,7 @@ export class AnalyticsPage implements OnInit {
   public chart: any;  // Chart variable
   chartType: ChartType = 'line';  // Default chart type
 
-  isLoading: boolean = true; // Add loading state
+  isLoading: boolean = true;
 
   constructor(private taskService: TaskService) {}
 
@@ -124,7 +122,7 @@ export class AnalyticsPage implements OnInit {
         this.pendingRate = data.pendingRate;
         this.completionRate = data.completionRate;
         this.cancellationRate = data.cancellationRate;
-        this.incompleteRate = data.incompleteRate; // New incomplete rate
+        this.incompleteRate = data.incompleteRate;
         this.averageTimeToComplete = data.averageTimeToComplete;
 
         // Now create the chart
@@ -183,16 +181,15 @@ export class AnalyticsPage implements OnInit {
         return;
       }
   
-      // Gradient for all chart types
       const gradient = chartCtx.createLinearGradient(0, 0, 0, 400);
-      gradient.addColorStop(0, 'rgb(161, 63, 231)'); // Dark purple
-      gradient.addColorStop(1, 'rgba(161, 63, 231, 0)'); // Transparent
+      gradient.addColorStop(0, 'rgb(161, 63, 231)');
+      gradient.addColorStop(1, 'rgba(161, 63, 231, 0)');
   
       // Apply gradient to pie/doughnut charts
       const getGradient = (ctx: CanvasRenderingContext2D) => {
         const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-        gradient.addColorStop(0, 'rgb(161, 63, 231)'); // Dark purple
-        gradient.addColorStop(1, 'rgba(161, 63, 231, 0)'); // Transparent
+        gradient.addColorStop(0, 'rgb(161, 63, 231)');
+        gradient.addColorStop(1, 'rgba(161, 63, 231, 0)');
         return gradient;
       };
   
@@ -213,7 +210,7 @@ export class AnalyticsPage implements OnInit {
             pointBorderWidth: 2,
             pointRadius: 5,
             pointHoverRadius: 7,
-            fill: this.chartType === 'line', // Fill area under the line
+            fill: this.chartType === 'line',
             tension: this.chartType === 'line' ? 0.4 : 0, // Smooth curves for line chart
             borderRadius: this.chartType === 'bar' ? 7 : this.chartType === 'pie' || this.chartType === 'doughnut' ? 10 : 0, // Rounded corners for bar/pie/doughnut
             spacing: this.chartType === 'pie' || this.chartType === 'doughnut' ? 5 : 0, // Spacing between segments

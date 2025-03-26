@@ -18,7 +18,7 @@ export class SignUpPage {
     private http: HttpClient,
     private router: Router,
     private toastController: ToastController,
-    private storage: StorageService // Inject StorageService
+    private storage: StorageService
   ) {}
 
   // Toggle password visibility

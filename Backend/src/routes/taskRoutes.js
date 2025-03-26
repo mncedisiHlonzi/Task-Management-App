@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
       priority,
       status: 'pending',
       userId,
-      fcm_token, // Store the FCM token
+      fcm_token, 
     });
 
     res.status(201).json(newTask);

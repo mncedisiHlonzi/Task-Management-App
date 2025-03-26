@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
-import { Router } from '@angular/router'; // Import Router for navigation
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-tasks',
@@ -21,7 +21,7 @@ export class ViewTasksPage implements OnInit {
     private alertController: AlertController,
     private http: HttpClient,
     private toastController: ToastController,
-    private router: Router // Inject Router
+    private router: Router
   ) { 
     this.loadUserData();
   }
@@ -38,7 +38,7 @@ export class ViewTasksPage implements OnInit {
     }
   }
 
-  loading: boolean = false; // Declare the loading property
+  loading: boolean = false;
 
   // Fetch tasks from the backend
   loadTasks() {
@@ -53,7 +53,7 @@ export class ViewTasksPage implements OnInit {
         (data) => {
           this.tasks = data;
   
-          // Ensure skeleton stays for at least 3 seconds
+          // Ensure skeleton stays for at least 1 seconds
           const elapsedTime = Date.now() - startTime;
           const remainingTime = Math.max(1000 - elapsedTime, 0);
   
@@ -64,7 +64,7 @@ export class ViewTasksPage implements OnInit {
         (error) => {
           console.error('Error fetching tasks:', error);
           
-          // Ensure skeleton stays for at least 3 seconds even on error
+          // Ensure skeleton stays for at least 1 seconds even on error
           setTimeout(() => {
             this.loading = false;
           }, 1000);
@@ -73,7 +73,7 @@ export class ViewTasksPage implements OnInit {
     } else {
       console.error('User ID not found. Cannot load tasks.');
       
-      // Still enforce the 3-second skeleton delay
+      // Still enforce the 1-second skeleton delay
       setTimeout(() => {
         this.loading = false;
       }, 1000);
@@ -158,7 +158,7 @@ export class ViewTasksPage implements OnInit {
 
   // Update task status in the database
   updateTaskStatus(task: any) {
-    const apiUrl = `${this.baseUrl}/tasks/${task.id}`; // Use baseUrl for API
+    const apiUrl = `${this.baseUrl}/tasks/${task.id}`;
     this.http.put(apiUrl, { status: task.status }).subscribe(
       async () => {
         console.log(`Task ${task.id} status updated to ${task.status}`);
@@ -200,7 +200,7 @@ export class ViewTasksPage implements OnInit {
         ],
       });
       await statusAlert.present();
-      return; // Prevent further execution
+      return;
     }
   
     // Check if a reminder is already set
@@ -339,8 +339,8 @@ export class ViewTasksPage implements OnInit {
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message,
-      duration: 2000, // Toast duration in milliseconds
-      position: 'bottom', // Toast position
+      duration: 2000,
+      position: 'bottom',
     });
     await toast.present();
   }
@@ -351,10 +351,10 @@ export class ViewTasksPage implements OnInit {
   }
 
   timeChange(time: string): string {
-    const localDate = new Date(); // Current local date
-    const [hours, minutes] = time.split(':').map(Number); // Extract hours and minutes
-    localDate.setHours(hours, minutes, 0, 0); // Set provided time in local date
-    const utcDate = new Date(localDate.toISOString()); // Convert to UTC
-    return utcDate.toISOString().split('T')[1].slice(0, 5); // Return HH:mm format in UTC
+    const localDate = new Date();
+    const [hours, minutes] = time.split(':').map(Number);
+    localDate.setHours(hours, minutes, 0, 0);
+    const utcDate = new Date(localDate.toISOString());
+    return utcDate.toISOString().split('T')[1].slice(0, 5);
   }
 }

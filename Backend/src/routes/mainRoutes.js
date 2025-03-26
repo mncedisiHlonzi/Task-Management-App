@@ -83,7 +83,7 @@ router.get('/completed-tasks', async (req, res) => {
 
         // Calculate the time difference for each task
         const tasksWithCompletionDetails = completedTasks.map((task) => {
-            const completionTime = new Date(task.statusUpdatedAt); // Use statusUpdatedAt for completion time
+            const completionTime = new Date(task.statusUpdatedAt);
             const dueTime = new Date(task.dueTime);
             const formattedTimeToDue = formatTimeDifference(completionTime, dueTime);
 

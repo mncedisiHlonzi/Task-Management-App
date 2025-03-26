@@ -3,7 +3,7 @@ import { Capacitor } from '@capacitor/core';
 import { ActionPerformed, PushNotifications, PushNotificationSchema, Token } from '@capacitor/push-notifications';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from './storage.service';
-import { ToastController } from '@ionic/angular'; // Import ToastController
+import { ToastController } from '@ionic/angular';
 
 export const FCM_TOKEN = 'push_notification_token';
 
@@ -20,7 +20,7 @@ export class FcmService {
 
   constructor(
     private storage: StorageService,
-    private toastController: ToastController // Inject ToastController
+    private toastController: ToastController
   ) { }
 
   initPush() {
@@ -77,7 +77,7 @@ export class FcmService {
       }
 
       // Show token in a toast (for development purposes)
-      this.showToast(`FCM Token: ${fcm_token}`);
+      // this.showToast(`FCM Token: ${fcm_token}`);
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {

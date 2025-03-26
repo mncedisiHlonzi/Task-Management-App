@@ -20,7 +20,7 @@ export class HomePage implements OnInit {
   greeting: string = '';
   username: string = 'Guest';
   profile_picture: string = '../../assets/images/user-default.png';
-  notificationCount: number = 5; // Example notification count
+  //notificationCount: number = 5;
 
   birthdayDate: string = '';
   birthdayWish: string = '';
@@ -32,10 +32,10 @@ export class HomePage implements OnInit {
   timeLeft: string = '';
   isBirthdayToday: boolean = false;
 
-  fcmToken: string | null = null; // Add this to store the FCM token
+  fcmToken: string | null = null; // Store the FCM token
 
   locationSuggestions: any[] = []; // Store location suggestions
-  private locationIqApiKey = 'pk.1470faed055efed88ce314062d9bfb9f'; // Replace with your API key
+  private locationIqApiKey = 'pk.1470faed055efed88ce314062d9bfb9f'; // API key
 
   taskOptions = [
     { icon: 'add', label: 'Create Task', action: () => this.navigateToCreateTask() },
@@ -50,12 +50,12 @@ export class HomePage implements OnInit {
   async ngOnInit() {
     this.setGreeting();
     this.loadUserData();
-    this.fetchBirthday(); // Fetch and recalculate days left
+    this.fetchBirthday();
 
     // Update days left every 24 hours
     setInterval(() => {
-      this.fetchBirthday(); // Recalculate days left
-    }, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
+      this.fetchBirthday();
+    }, 24 * 60 * 60 * 1000);
 
     // Simulate loading delay of 3 seconds
     setTimeout(() => {
@@ -131,7 +131,7 @@ export class HomePage implements OnInit {
         },
         (error) => {
           console.error('Error fetching location suggestions:', error);
-          this.locationSuggestions = []; // Clear suggestions on error
+          this.locationSuggestions = [];
         }
       );
     } else {
@@ -169,7 +169,7 @@ export class HomePage implements OnInit {
         this.fetchBirthday();
         this.hasBirthday = true;
   
-        this.clearInputs(); // Clear the form inputs
+        this.clearInputs();
         this.closeModal();
       },
       async (error) => {
@@ -198,7 +198,6 @@ export class HomePage implements OnInit {
     await toast.present();
   }
 
-
   //fetch Birthday
   fetchBirthday() {
     if (!this.userId) return;
@@ -208,7 +207,7 @@ export class HomePage implements OnInit {
     this.http.get(apiUrl).subscribe(
       (response: any) => {
         if (response.length > 0) {
-          const birthday = response[0]; // Assuming the user has only one birthday entry
+          const birthday = response[0];
           this.birthdayDate = birthday.date;
           this.birthdayWish = birthday.wish;
           this.birthdayLocation = birthday.location;
@@ -225,8 +224,8 @@ export class HomePage implements OnInit {
       },
       (error) => {
         console.error('Error fetching birthday:', error);
-        this.hasBirthday = false; // Assume no birthday on error
-        this.isBirthdayToday = false; // Reset the flag
+        this.hasBirthday = false;
+        this.isBirthdayToday = false;
       }
     );
   }
@@ -283,12 +282,6 @@ export class HomePage implements OnInit {
     }
   }
 
-
-
-
-
-
-
   // Open the View/Edit Birthday Modal
   openViewBirthdayModal() {
     this.viewBirthdayModal.present();
@@ -320,8 +313,8 @@ export class HomePage implements OnInit {
       async (response: any) => {
         console.log('Birthday updated successfully!', response);
         await this.presentToast('Birthday updated successfully!', 'success');
-        this.fetchBirthday(); // Refetch the birthday data
-        this.closeViewBirthdayModal(); // Close the modal
+        this.fetchBirthday();
+        this.closeViewBirthdayModal();
       },
       async (error) => {
         console.error('Error updating birthday:', error);
@@ -329,6 +322,5 @@ export class HomePage implements OnInit {
       }
     );
   }
-
 
 }

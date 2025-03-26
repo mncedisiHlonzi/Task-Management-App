@@ -19,7 +19,7 @@ export class CreateTaskPage implements OnInit {
   };
 
   userId: number | null = null;
-  fcmToken: string | null = null; // Add this to store the FCM token
+  fcmToken: string | null = null; // Store the FCM token
   private apiUrl = 'http://172.168.161.212:3000/api/tasks';
 
   constructor(private http: HttpClient, private toastController: ToastController, private router: Router) {}

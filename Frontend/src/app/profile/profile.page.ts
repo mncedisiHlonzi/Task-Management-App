@@ -42,10 +42,10 @@ export class ProfilePage implements OnInit {
   }
 
   loadUserData() {
-    const user = localStorage.getItem('user'); // Replace 'user' with the actual key used
+    const user = localStorage.getItem('user');
     if (user) {
       const parsedUser = JSON.parse(user);
-      this.userId = parsedUser.id; // Ensure the user object has an 'id' field
+      this.userId = parsedUser.id;
     }
   }
 
@@ -67,7 +67,7 @@ export class ProfilePage implements OnInit {
   async openImageOptions() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Select Profile Picture',
-      cssClass: 'custom-action-sheet', // Apply custom styles
+      cssClass: 'custom-action-sheet',
       buttons: [
         {
           text: 'Take photo',
@@ -83,7 +83,7 @@ export class ProfilePage implements OnInit {
           text: 'Cancel',
           icon: 'close',
           role: 'cancel',
-          cssClass: 'action-sheet-button-cancel', // Specific style for the Cancel button
+          cssClass: 'action-sheet-button-cancel',
         },
       ],
     });

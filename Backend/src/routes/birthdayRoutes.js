@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
         location,
         repeatYearly,
         userId,
-        fcm_token, // Store the FCM token
+        fcm_token,
       });
   
       console.log('Birthday added successfully:', newBirthday); // Log success

@@ -1,7 +1,7 @@
 // src/app/shared/shared.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DatePipe } from '../post.data.ago'; // Adjust the path as necessary
+import { DatePipe } from '../post.data.ago';
 
 @NgModule({
   declarations: [DatePipe],

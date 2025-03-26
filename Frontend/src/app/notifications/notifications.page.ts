@@ -180,13 +180,13 @@ export class NotificationsPage implements OnInit {
       this.tasksWithReminders[index] = {
         ...this.tasksWithReminders[index],
         notificationTriggered: true,
-        timeLeft, // Store the formatted time left here
+        timeLeft,
       };
     } else {
       this.tasksWithReminders.push({
         ...task,
         notificationTriggered: true,
-        timeLeft, // Store the formatted time left here
+        timeLeft,
       });
     }
   }
@@ -284,7 +284,7 @@ export class NotificationsPage implements OnInit {
       const apiUrl = `http://172.168.161.212:3000/api/mains/incompleted-tasks?userId=${this.userId}`;
       this.http.get<any[]>(apiUrl).subscribe(
         (data) => {
-          this.incompletedTasks = data; // Directly assign the response data
+          this.incompletedTasks = data;
         },
         (error) => {
           console.error('Error fetching incompleted tasks:', error);

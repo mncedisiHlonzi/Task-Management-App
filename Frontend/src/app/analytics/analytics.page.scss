@@ -40,17 +40,17 @@ ion-content {
 .card {
   --background: var(--plug-cards-bg);
   border-radius: 12px;
-  position: relative; /* Positioning for pseudo-element */
-  overflow: hidden; /* Prevent background spill */
+  position: relative;
+  overflow: hidden;
   box-shadow: none !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Hover Effect for Cards */
 .card:hover {
-  transform: translateY(-4px); /* Slight lift */
+  transform: translateY(-4px);
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15), 
-              0px 3px 6px rgba(0, 0, 0, 0.1); /* Stronger shadow on hover */
+              0px 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Background Image for Card */
@@ -62,9 +62,9 @@ ion-content {
   width: 100%;
   height: 100%;
   background: url('../../assets/images/task.png') no-repeat center center;
-  background-size: cover; /* Cover the whole card */
-  opacity: 0.3; /* Subtle effect */
-  z-index: 0; /* Below the content */
+  background-size: cover;
+  opacity: 0.3;
+  z-index: 0;
 }
 
 /* Item Styles */
@@ -111,20 +111,20 @@ ion-card-subtitle {
 }
 
 .option-square:hover {
-  transform: translateY(-4px); /* Lift effect on hover */
+  transform: translateY(-4px);
 }
 
 /* Icon and Category Styles */
 .option-icon {
   font-size: 25px;
-  margin: 6px 0 5px 6px; /* Top, Right, Bottom, Left */
+  margin: 6px 0 5px 6px;
 }
 
 .cat {
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--ion-tx-color);
-  margin: -1px 0 0 6px; /* Top, Right, Bottom, Left */
+  margin: -1px 0 0 6px;
 }
 
 /* Number Rate Styles */
@@ -133,7 +133,7 @@ ion-card-subtitle {
   justify-content: space-between;
   align-items: center;
   height: 40px;
-  margin: -5px 0 10px; /* Top, Right, Bottom */
+  margin: -5px 0 10px;
 }
 
 .number-rate h1 {

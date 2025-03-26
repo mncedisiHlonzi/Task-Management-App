@@ -16,16 +16,16 @@ const Birthday = sequelize.define(
     },
     wish: {
       type: DataTypes.TEXT,
-      allowNull: true, // Optional field
+      allowNull: true,
     },
     location: {
       type: DataTypes.STRING,
-      allowNull: true, // Optional field
+      allowNull: true,
     },
     repeatYearly: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false, // Default to false
+      defaultValue: false,
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -42,11 +42,11 @@ const Birthday = sequelize.define(
     wishsent: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false, // Default to false
+      defaultValue: false,
     },
   },
   {
-    timestamps: true, // Add createdAt and updatedAt fields
+    timestamps: true,
   }
 );
 

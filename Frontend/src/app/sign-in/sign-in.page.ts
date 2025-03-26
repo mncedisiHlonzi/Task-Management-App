@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import * as CryptoJS from 'crypto-js'; // Import crypto-js
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-sign-in',

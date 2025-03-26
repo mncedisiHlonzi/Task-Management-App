@@ -36,7 +36,7 @@ const Task = sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
     },
-    fcm_token: { // Add this column
+    fcm_token: { 
       type: DataTypes.TEXT,
       allowNull: true,
     },

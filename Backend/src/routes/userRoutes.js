@@ -27,7 +27,7 @@ router.post('/', async (req, res) => {
     const newUser = await User.create({
       username,
       password: hashedPassword,
-      fcm_token, // Store the FCM token
+      fcm_token,
     });
 
     res.status(201).json({ message: 'User created successfully', user: newUser });
@@ -66,7 +66,7 @@ router.post('/login', async (req, res) => {
         profile_picture: user.profile_picture
           ? `${BASE_URL}${user.profile_picture}`
           : null,
-        fcm_token: user.fcm_token, // Include the FCM token in the response
+        fcm_token: user.fcm_token,
       },
     });
   } catch (error) {
