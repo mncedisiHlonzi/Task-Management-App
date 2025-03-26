@@ -102,6 +102,14 @@ The **Task Management App** is a powerful and intuitive application designed to 
     ionic serve
    ```
 
+4. For Android/iOS builds:
+
+    ```bash
+    ionic cap add android
+    ionic cap add ios
+    ionic cap open android/ios
+    ```
+
 ## Usage
 1. Register/Login to create an account.
 2. Start adding and managing tasks.
